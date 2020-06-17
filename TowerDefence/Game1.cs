@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using TowerDefence.Managers;
+using TowerDefence.Screens;
 
 namespace TowerDefence
 {
@@ -11,12 +14,16 @@ namespace TowerDefence
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        RenderTarget2D renderTarget2D;
+
+        public static ContentManager ContentManager;
+        public static GraphicsDevice Graphics;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            IsMouseVisible = true;
+            IsFixedTimeStep = false;
         }
 
         /// <summary>
@@ -27,6 +34,10 @@ namespace TowerDefence
         /// </summary>
         protected override void Initialize()
         {
+            Graphics = GraphicsDevice;
+            ContentManager = Content;
+
+            ScreenManager.ChangeScreen(new LoadScreen());
 
             base.Initialize();
         }
@@ -39,7 +50,10 @@ namespace TowerDefence
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            renderTarget2D = new RenderTarget2D(GraphicsDevice, 100, 100);
+
+            Texture2D pixel = new Texture2D(GraphicsDevice, 1, 1);
+            pixel.SetData(new Color[] { Color.White });
+            SpriteManager.AddTexture("pixel", pixel);
         }
 
         /// <summary>
@@ -60,6 +74,7 @@ namespace TowerDefence
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            ScreenManager.Update(gameTime.ElapsedGameTime.Milliseconds);
 
             base.Update(gameTime);
         }
@@ -72,6 +87,7 @@ namespace TowerDefence
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            ScreenManager.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
