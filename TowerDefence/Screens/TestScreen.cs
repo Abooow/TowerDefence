@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using TowerDefence.Controllers;
 using TowerDefence.Helpers;
 using TowerDefence.Managers;
+using TowerDefence.Moldels;
 using TowerDefence.Towers;
 using TowerDefence.Views;
 
@@ -11,17 +12,31 @@ namespace TowerDefence.Screens
 {
     public class TestScreen : BaseScreen
     {
+        private Camera camera;
         private TowerPlacer towerPlacer;
         private TowerManager towerManager;
         private SelectTowerController selectTowerController;
+        private RenderTarget2D renderTarget;
 
         public TestScreen()
         {
+            camera = new Camera(new Vector2(800, 480))
+            {
+                Scale = new Vector2(0.5f)
+            };
+
             towerManager = new TowerManager();
             towerPlacer = new TowerPlacer(towerManager);
 
-            controllers.Add(selectTowerController = new SelectTowerController(towerManager, towerPlacer));
+            // Controllers.
+            controllers.Add(selectTowerController = new SelectTowerController(towerManager, towerPlacer, camera));
+            controllers.Add(new MapMoverController(camera));
+
+            // Views.
             views.Add(new SelectedTowerView(selectTowerController));
+            views.Add(new MapView());
+
+            renderTarget = new RenderTarget2D(Game1.Graphics, 800, 480);
         }
 
         public override void Update(float deltaTime)
@@ -30,10 +45,11 @@ namespace TowerDefence.Screens
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
+                selectTowerController.SelectedTower = null;
                 towerPlacer.TargetTower = new TestTower();
             }
 
-            if (towerPlacer.HaveTargetTower) towerPlacer.MoveTower(Mouse.GetState().Position.ToVector2());
+            if (towerPlacer.HaveTargetTower) towerPlacer.MoveTower(camera.ScreenToWorldPoint(Mouse.GetState().Position.ToVector2()));
 
             if (Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
@@ -46,7 +62,7 @@ namespace TowerDefence.Screens
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.FrontToBack);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, null, null, null, null, camera.GetTranslationMatrix());
 
             // Draw tower to place.
             towerPlacer.Draw(spriteBatch);
@@ -58,7 +74,7 @@ namespace TowerDefence.Screens
             }
 
             foreach (IView view in views)
-                view.Draw(spriteBatch);
+                if (view.Enabled) view.Draw(spriteBatch);
 
             spriteBatch.End();
 

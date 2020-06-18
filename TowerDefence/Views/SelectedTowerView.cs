@@ -11,11 +11,14 @@ namespace TowerDefence.Views
 {
     public class SelectedTowerView : IView
     {
+        public bool Enabled { get; set; }
+
         private SelectTowerController selectTowerController;
 
         public SelectedTowerView(SelectTowerController selectTowerController)
         {
             this.selectTowerController = selectTowerController;
+            Enabled = true;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -26,8 +29,14 @@ namespace TowerDefence.Views
                 // Draw range area.
                 spriteBatch.Draw(
                     selectTowerController.SelectedTower.RangeTexture,
-                    selectTowerController.SelectedTower.Position - new Vector2(selectTowerController.SelectedTower.RangeRadius) * 0.5f,
-                    Color.White * 0.3f);
+                    selectTowerController.SelectedTower.Position - new Vector2(selectTowerController.SelectedTower.RangeRadius),
+                    null,
+                    Color.White * 0.4f,
+                    0f,
+                    Vector2.Zero,
+                    1f,
+                    SpriteEffects.None,
+                    selectTowerController.SelectedTower.BaseLayerDepth - 0.001f);
 
                 selectTowerController.SelectedTower.Draw(spriteBatch, Color.White);
             }

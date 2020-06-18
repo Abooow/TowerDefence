@@ -19,7 +19,7 @@ namespace TowerDefence.Screens
         public virtual void Update(float deltaTime)
         {
             foreach (IController controller in controllers)
-                controller.Update(deltaTime);
+                if (controller.Enabled) controller.Update(deltaTime);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

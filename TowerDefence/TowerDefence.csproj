@@ -43,12 +43,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Controllers\IController.cs" />
+    <Compile Include="Controllers\MapMoverController.cs" />
     <Compile Include="Controllers\SelectTowerController.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Helpers\Circle.cs" />
+    <Compile Include="Helpers\MapFileLoader.cs" />
     <Compile Include="Helpers\TowerPlacer.cs" />
+    <Compile Include="Managers\MapManager.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
     <Compile Include="Managers\TowerManager.cs" />
     <Compile Include="Moldels\Animation.cs" />
+    <Compile Include="Moldels\Camera.cs" />
+    <Compile Include="Moldels\Map.cs" />
+    <Compile Include="Moldels\MapData.cs" />
     <Compile Include="Moldels\Sprite.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,6 +67,7 @@
     <Compile Include="Towers\TestTower.cs" />
     <Compile Include="Towers\BaseTower.cs" />
     <Compile Include="Views\IView.cs" />
+    <Compile Include="Views\MapView.cs" />
     <Compile Include="Views\SelectedTowerView.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +75,7 @@
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>

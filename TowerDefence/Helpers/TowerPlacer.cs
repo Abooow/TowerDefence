@@ -25,7 +25,7 @@ namespace TowerDefence.Helpers
             this.position = position;
             TargetTower.Position = position;
 
-            return canPlace = !towerManager.OverlapsAnyTowers(TargetTower, position);
+            return canPlace = !towerManager.OverlapsAnyTowers(TargetTower) && towerManager.CanPlaceOnMap(TargetTower, MapManager.LoadedMap);
         }
 
         public void PlaceTower()
@@ -46,18 +46,31 @@ namespace TowerDefence.Helpers
                 // Tower range.
                 spriteBatch.Draw(
                     TargetTower.RangeTexture,
-                    position - new Vector2(TargetTower.RangeRadius) * 0.5f,
-                    canPlaceColor * 0.3f);
+                    position - new Vector2(TargetTower.RangeRadius),
+                    null,
+                    canPlaceColor * 0.3f,
+                    0f,
+                    Vector2.Zero,
+                    1f,
+                    SpriteEffects.None,
+                    TargetTower.BaseLayerDepth - 0.001f);
 
                 // Tower texture.
-                if (TargetTower.Texture != null)
+                if (TargetTower.TopTexture != null)
                 {
                     TargetTower.Draw(spriteBatch, canPlace ? Color.White : Color.LightSalmon);
                 }
 
                 // Tower base area.
-                Rectangle towerBase = new Rectangle((position - TargetTower.BaseSize.ToVector2() * 0.5f).ToPoint(), TargetTower.BaseSize);
-                spriteBatch.Draw(SpriteManager.GetTexture("pixel"), towerBase, null, canPlaceColor * 0.4f);
+                spriteBatch.Draw(TargetTower.BaseRangeTexture, 
+                    position - new Vector2(TargetTower.BaseRadius),
+                    null, 
+                    canPlaceColor * 0.4f,
+                    0f, 
+                    Vector2.Zero, 
+                    1f, 
+                    SpriteEffects.None, 
+                    TargetTower.BaseLayerDepth + 0.001f);
             }
         }
     }

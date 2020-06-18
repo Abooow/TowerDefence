@@ -8,14 +8,11 @@ namespace TowerDefence.Towers
 {
     public class TestTower : BaseTower
     {
-        float towerBaseLayerDepth;
-        float towerTopLayerDepth;
-
         public TestTower()
-            : base(100f, new Point(52, 52), SpriteManager.GetSprite("Tower1"))
+            : base(SpriteManager.GetSprite("TowerBase2"), SpriteManager.GetSprite("Tower1"), 26f, 250f)
         {
-            towerBaseLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerBase);
-            towerTopLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerTop);
+            BaseLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerBase);
+            TopLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerTop);
         }
 
         public override void Update(float deltaTime)
@@ -25,19 +22,18 @@ namespace TowerDefence.Towers
 
         public override void Draw(SpriteBatch spriteBatch, Color color)
         {
-            Sprite towerBase = SpriteManager.GetSprite("TowerBase2");
-            spriteBatch.Draw(towerBase.Texture, Position, towerBase.SourceRect, color, 0f, towerBase.Origin, 1f, SpriteEffects.None, towerBaseLayerDepth);
+            spriteBatch.Draw(BaseTexture, Position, BaseTexture.SourceRect, color, 0f, BaseTexture.Origin, 1f, SpriteEffects.None, BaseLayerDepth);
 
             spriteBatch.Draw(
-                Texture,
+                TopTexture,
                 Position,
-                Texture.SourceRect,
+                TopTexture.SourceRect,
                 color,
                 Rotation,
-                Texture.Origin,
+                TopTexture.Origin,
                 Vector2.One,
                 SpriteEffects.None,
-                towerTopLayerDepth);
+                TopLayerDepth);
         }
     }
 }

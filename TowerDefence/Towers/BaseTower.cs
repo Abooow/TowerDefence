@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using TowerDefence.Helpers;
 using TowerDefence.Moldels;
 
 namespace TowerDefence.Towers
@@ -8,57 +9,33 @@ namespace TowerDefence.Towers
     public abstract class BaseTower
     {
         public Vector2 Position { get; set; }
-        public Point BaseSize { get; set; }
+        public float BaseRadius { get; set; }
         public float RangeRadius { get; private set; }
         public float Rotation { get; set; }
-        public Sprite Texture { get; set; }
+        public float BaseLayerDepth { get; set; }
+        public float TopLayerDepth { get; set; }
+        public Sprite BaseTexture { get; set; }
+        public Sprite TopTexture { get; set; }
         public Texture2D RangeTexture { get; internal set; }
+        public Texture2D BaseRangeTexture { get; internal set; }
 
         private float oldRange;
 
-        public BaseTower(float range, Point size, Sprite texture)
+        public BaseTower(Sprite baseTexture, Sprite topTexture, float baseRadius, float range)
         {
+            BaseTexture = baseTexture;
+            TopTexture = topTexture;
+            BaseRadius = baseRadius;
             RangeRadius = range;
-            BaseSize = size;
-            Texture = texture;
 
-            RangeTexture = CreateCircleText((int)Math.Round(RangeRadius));
+            RangeTexture = Circle.GetTexture(Game1.Graphics, (int)Math.Round(range * 2f));
+            BaseRangeTexture = Circle.GetTexture(Game1.Graphics, (int)Math.Round(baseRadius * 2f));
         }
 
         public virtual void Update(float deltaTime)
         {
-
         }
 
         public abstract void Draw(SpriteBatch spriteBatch, Color color);
-
-        private Texture2D CreateCircleText(int radius)
-        {
-            Texture2D texture = new Texture2D(Game1.Graphics, radius, radius);
-            Color[] colorData = new Color[radius * radius];
-
-            float diam = radius / 2f;
-            float diamsq = diam * diam;
-
-            for (int x = 0; x < radius; x++)
-            {
-                for (int y = 0; y < radius; y++)
-                {
-                    int index = x * radius + y;
-                    Vector2 pos = new Vector2(x - diam, y - diam);
-                    if (pos.LengthSquared() <= diamsq)
-                    {
-                        colorData[index] = Color.White;
-                    }
-                    else
-                    {
-                        colorData[index] = Color.Transparent;
-                    }
-                }
-            }
-
-            texture.SetData(colorData);
-            return texture;
-        }
     }
 }
