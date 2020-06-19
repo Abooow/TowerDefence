@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using TowerDefence.Moldels;
 
 namespace TowerDefence.Helpers
@@ -12,20 +13,25 @@ namespace TowerDefence.Helpers
     {
         public static string MapsFolderPath = "../../../../Maps";
 
-        public static MapData[] FindAllMapFiles(string pattern)
+        public static MapData[] FindAllMapFiles()
         {
-            string[] files = Directory.GetFiles(MapsFolderPath, pattern, SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(MapsFolderPath, "*.xml", SearchOption.AllDirectories);
 
             List<MapData> maps = new List<MapData>();
             foreach (string filePath in files)
             {
-                (string, string) mapData = GetMapData(filePath);
-                maps.Add(new MapData(filePath, mapData.Item1, mapData.Item2));
+                XmlSerializer serializer = new XmlSerializer(typeof(MapData));
+                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    MapData? map = serializer.Deserialize(fs) as MapData?;
+                    if (map != null) maps.Add((MapData)map);
+                }
             }
 
             return maps.ToArray();
         }
 
+        [Obsolete]
         private static (string GroundTexturePath, string PermittedTowerPlacementTexturePath) GetMapData(string path)
         {
             string[] lines = File.ReadAllLines(path);

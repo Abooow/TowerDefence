@@ -13,6 +13,7 @@ namespace TowerDefence.Screens
     public class TestScreen : BaseScreen
     {
         private Camera camera;
+        private EnemyManager enemyManager;
         private TowerPlacer towerPlacer;
         private TowerManager towerManager;
         private SelectTowerController selectTowerController;
@@ -25,16 +26,22 @@ namespace TowerDefence.Screens
                 Scale = new Vector2(0.5f)
             };
 
+            enemyManager = new EnemyManager();
             towerManager = new TowerManager();
             towerPlacer = new TowerPlacer(towerManager);
+
+            enemyManager.OnEnemyReachedLastPoint += OnEnemyReachedGoal;
 
             // Controllers.
             controllers.Add(selectTowerController = new SelectTowerController(towerManager, towerPlacer, camera));
             controllers.Add(new MapMoverController(camera));
+            controllers.Add(new EnemySpawnerController(enemyManager));
+            controllers.Add(enemyManager);
 
             // Views.
             views.Add(new SelectedTowerView(selectTowerController));
             views.Add(new MapView());
+            views.Add(enemyManager);
 
             renderTarget = new RenderTarget2D(Game1.Graphics, 800, 480);
         }
@@ -79,6 +86,11 @@ namespace TowerDefence.Screens
             spriteBatch.End();
 
             base.Draw(spriteBatch);
+        }
+
+        private void OnEnemyReachedGoal(Enemy enemy)
+        {
+            enemyManager.Enemies.Remove(enemy);
         }
     }
 }

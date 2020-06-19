@@ -19,9 +19,9 @@ namespace TowerDefence.Managers
 
         public static int TotalLoadedMaps => Maps.Length;
 
-        public static void LoadAllMaps(string pattern)
+        public static void LoadAllMaps()
         {
-            Maps = MapFileLoader.FindAllMapFiles(pattern);
+            Maps = MapFileLoader.FindAllMapFiles();
         }
 
         public static Map CreateMap(MapData mapData, GraphicsDevice graphics)
@@ -32,8 +32,7 @@ namespace TowerDefence.Managers
                 {
                     int w = image.Width;
                     int h = image.Height;
-                    Bitmap bitmap1 = new Bitmap(image);
-                    Bitmap bitmap = bitmap1;
+                    Bitmap bitmap = new Bitmap(image);
                     uint[] data = new uint[w * h];
                     for (int i = 0; i != bitmap.Width; ++i)
                     {
@@ -56,7 +55,7 @@ namespace TowerDefence.Managers
             if (mapData.GroundTexturePath != "") groundTexture = LoadTexture(mapData.GroundTexturePath);
             if (mapData.PermittedTowerPlacementTexturePath != "") permittedTowerPlaceTexture = new Bitmap(mapData.PermittedTowerPlacementTexturePath);
 
-            return new Map(groundTexture, permittedTowerPlaceTexture);
+            return new Map(groundTexture, permittedTowerPlaceTexture, mapData.EnemyPath);
         }
 
         public static bool LoadMap(Map map)
