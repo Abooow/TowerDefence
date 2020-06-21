@@ -10,14 +10,15 @@ using TowerDefence.Views;
 
 namespace TowerDefence.Screens
 {
-    public class TestScreen : BaseScreen
+    public class TestScreen : Screen
     {
         private Camera camera;
         private EnemyManager enemyManager;
-        private TowerPlacer towerPlacer;
         private TowerManager towerManager;
+        private BulletManager bulletManager;
+        private TowerPlacer towerPlacer;
         private SelectTowerController selectTowerController;
-        private RenderTarget2D renderTarget;
+        private EnemySpawnerController spawnerController;
 
         public TestScreen()
         {
@@ -27,33 +28,42 @@ namespace TowerDefence.Screens
             };
 
             enemyManager = new EnemyManager();
-            towerManager = new TowerManager();
+            towerManager = new TowerManager(enemyManager);
+            bulletManager = new BulletManager(enemyManager);
             towerPlacer = new TowerPlacer(towerManager);
+            selectTowerController = new SelectTowerController(towerManager, towerPlacer, camera);
 
             enemyManager.OnEnemyReachedLastPoint += OnEnemyReachedGoal;
 
             // Controllers.
-            controllers.Add(selectTowerController = new SelectTowerController(towerManager, towerPlacer, camera));
+            controllers.Add(selectTowerController);
             controllers.Add(new MapMoverController(camera));
-            controllers.Add(new EnemySpawnerController(enemyManager));
+            controllers.Add(spawnerController = new EnemySpawnerController(enemyManager));
             controllers.Add(enemyManager);
+            controllers.Add(towerManager);
+            controllers.Add(bulletManager);
 
             // Views.
             views.Add(new SelectedTowerView(selectTowerController));
             views.Add(new MapView());
             views.Add(enemyManager);
-
-            renderTarget = new RenderTarget2D(Game1.Graphics, 800, 480);
+            views.Add(towerManager);
+            views.Add(bulletManager);
         }
 
         public override void Update(float deltaTime)
         {
             towerManager.Update(deltaTime);
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                spawnerController.Enabled = true;
+            else
+                spawnerController.Enabled = false;
+
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 selectTowerController.SelectedTower = null;
-                towerPlacer.TargetTower = new TestTower();
+                towerPlacer.TargetTower = new TestTower(bulletManager);
             }
 
             if (towerPlacer.HaveTargetTower) towerPlacer.MoveTower(camera.ScreenToWorldPoint(Mouse.GetState().Position.ToVector2()));
@@ -69,16 +79,10 @@ namespace TowerDefence.Screens
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, null, null, null, null, camera.GetTranslationMatrix());
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointWrap, null, null, null, camera.GetTranslationMatrix());
 
             // Draw tower to place.
             towerPlacer.Draw(spriteBatch);
-
-            // Draw all existing towers.
-            foreach (BaseTower tower in towerManager.Towers)
-            {
-                if (!(tower == selectTowerController.SelectedTower)) tower.Draw(spriteBatch, Color.White);
-            }
 
             foreach (IView view in views)
                 if (view.Enabled) view.Draw(spriteBatch);
@@ -90,7 +94,7 @@ namespace TowerDefence.Screens
 
         private void OnEnemyReachedGoal(Enemy enemy)
         {
-            enemyManager.Enemies.Remove(enemy);
+            enemyManager.Remove(enemy);
         }
     }
 }

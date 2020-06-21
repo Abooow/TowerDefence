@@ -12,11 +12,14 @@ namespace TowerDefence
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
         public static ContentManager ContentManager;
         public static GraphicsDevice Graphics;
+
+        public float GameSpeed { get; set; }
+
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private SimpleFps fpsCounter;
 
         public Game1()
         {
@@ -24,6 +27,8 @@ namespace TowerDefence
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             IsFixedTimeStep = false;
+            graphics.PreferredBackBufferWidth  = 1000;
+            graphics.PreferredBackBufferHeight = 550;
         }
 
         /// <summary>
@@ -34,9 +39,11 @@ namespace TowerDefence
         /// </summary>
         protected override void Initialize()
         {
+            GameSpeed = 1f;
             Graphics = GraphicsDevice;
             ContentManager = Content;
 
+            fpsCounter = new SimpleFps();
             ScreenManager.ChangeScreen(new LoadScreen());
 
             base.Initialize();
@@ -50,10 +57,6 @@ namespace TowerDefence
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            Texture2D pixel = new Texture2D(GraphicsDevice, 1, 1);
-            pixel.SetData(new Color[] { Color.White });
-            SpriteManager.AddTexture("pixel", pixel);
         }
 
         /// <summary>
@@ -74,7 +77,10 @@ namespace TowerDefence
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            ScreenManager.Update(gameTime.ElapsedGameTime.Milliseconds);
+            fpsCounter.Update(gameTime);
+            Window.Title = fpsCounter.msg;
+
+            ScreenManager.Update((gameTime.ElapsedGameTime.Milliseconds / 1000f) * GameSpeed);
 
             base.Update(gameTime);
         }

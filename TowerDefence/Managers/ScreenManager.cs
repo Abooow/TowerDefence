@@ -5,12 +5,12 @@ namespace TowerDefence.Managers
 {
     public static class ScreenManager
     {
-        public static BaseScreen CurrentScreen { get; private set; }
+        public static Screen CurrentScreen { get; private set; }
 
-        private static BaseScreen newScreen;
+        private static Screen newScreen;
         private static bool switchScreen;
 
-        public static void ChangeScreen(BaseScreen newScreen)
+        public static void ChangeScreen(Screen newScreen)
         {
             if (CurrentScreen == null)
             {

@@ -15,7 +15,7 @@ namespace TowerDefence.Controllers
     public class SelectTowerController : IController
     {
         public bool Enabled { get; set; }
-        public BaseTower SelectedTower { get; set; }
+        public Tower SelectedTower { get; set; }
 
         private TowerManager towerManager;
         private TowerPlacer towerPlacer;
@@ -38,7 +38,7 @@ namespace TowerDefence.Controllers
                 else
                 {
                     SelectedTower = null;
-                    foreach (BaseTower tower in towerManager.Towers)
+                    foreach (Tower tower in towerManager.Towers)
                     {
                         if (Circle.Contains(tower.Position, tower.BaseRadius, camera.ScreenToWorldPoint(Mouse.GetState().Position.ToVector2())))
                         {

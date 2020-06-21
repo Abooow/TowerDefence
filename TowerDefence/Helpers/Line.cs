@@ -16,7 +16,7 @@ namespace TowerDefence.Helpers
 
         static Line()
         {
-            pixel = SpriteManager.GetTexture("Pixel");
+            pixel = AssetManager.GetTexture("Pixel");
             origin = new Vector2(0f, 0.5f);
         }
 

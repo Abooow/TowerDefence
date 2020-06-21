@@ -5,12 +5,12 @@ using TowerDefence.Views;
 
 namespace TowerDefence.Screens
 {
-    public abstract class BaseScreen
+    public abstract class Screen
     {
         protected List<IController> controllers;
         protected List<IView> views;
 
-        public BaseScreen()
+        public Screen()
         {
             controllers = new List<IController>();
             views = new List<IView>();

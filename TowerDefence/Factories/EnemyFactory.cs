@@ -12,6 +12,7 @@ namespace TowerDefence.Factories
     {
         public static Dictionary<string, Enemy> Enemies { get; private set; } = new Dictionary<string, Enemy>();
         public static Enemy DefaultEnemy { get; set; }
+        public static float LargestEnemyHitboxRadius { get; private set; }
 
         public static void Add(string name, Enemy enemy)
         {
@@ -19,6 +20,7 @@ namespace TowerDefence.Factories
             {
                 Enemies.Add(name, enemy);
 
+                if (enemy.HitboxRadius > LargestEnemyHitboxRadius) LargestEnemyHitboxRadius = enemy.HitboxRadius;
                 if (DefaultEnemy == null) DefaultEnemy = enemy;
             }
         }

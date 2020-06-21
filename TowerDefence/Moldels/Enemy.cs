@@ -9,8 +9,9 @@ using TowerDefence.Controllers;
 
 namespace TowerDefence.Moldels
 {
-    public class Enemy
+    public class Enemy : IPositionable
     {
+        public Vector2 Position { get; set; }
         public Sprite Sprite { get; set; }
         public float HitboxRadius { get; set; }
         public float Scale { get; set; }
@@ -18,12 +19,10 @@ namespace TowerDefence.Moldels
         public float Health { get; set; }
         public float Armor { get; set; }
         public float Damage { get; set; }
-        public Vector2 Position { get; set; }
         public float Rotation { get; set; }
         public float LayerDepth { get; set; }
+        public EnemyAiController AiController { get; }
         public bool HaveReachedLastWayPoint { get; private set; }
-
-        private EnemyAiController aiController;
 
         public Enemy(Sprite sprite, float hitboxRadius, float scale, float speed, float health, float armor, float damage, float layerDepth)
         {
@@ -36,13 +35,15 @@ namespace TowerDefence.Moldels
             Damage = damage;
             LayerDepth = layerDepth;
 
-            aiController = new EnemyAiController(this);
+            AiController = new EnemyAiController(this);
         }
 
-        public void Update(float deltaTime)
+        public bool Update(float deltaTime)
         {
-            aiController.Update(deltaTime);
-            HaveReachedLastWayPoint = aiController.HaveReachedLastWayPoint;
+            AiController.Update(deltaTime);
+            HaveReachedLastWayPoint = AiController.HaveReachedLastWayPoint;
+
+            return Health <= 0;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -59,15 +60,18 @@ namespace TowerDefence.Moldels
                 LayerDepth);
         }
 
-        public bool TakeDamage(float damage)
+        public void TakeDamage(float damage)
         {
             float damageMultiplier;
             if (Armor >= 0) damageMultiplier = 100f / (100 + Armor);
             else damageMultiplier = 2f - (100f / (100 - Armor));
 
             Health -= damage * damageMultiplier;
+        }
 
-            return Health <= 0;
+        public override bool Equals(object obj)
+        {
+            return obj == null ? false : obj == this;
         }
     }
 }

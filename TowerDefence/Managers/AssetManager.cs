@@ -4,9 +4,10 @@ using TowerDefence.Moldels;
 
 namespace TowerDefence.Managers
 {
-    public static class SpriteManager
+    public static class AssetManager
     {
         private static Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
+        private static Dictionary<string, SpriteFont> fonts = new Dictionary<string, SpriteFont>();
         private static Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
 
         public static void AddTexture(string name, Texture2D texture)
@@ -18,6 +19,18 @@ namespace TowerDefence.Managers
         public static Texture2D GetTexture(string name)
         {
             if (textures.TryGetValue(name, out Texture2D sprite)) return sprite;
+            return null;
+        }
+
+        public static void AddFont(string name, SpriteFont font)
+        {
+            if (!fonts.ContainsKey(name)) fonts.Add(name, font);
+            else fonts[name] = font;
+        }
+
+        public static SpriteFont GetFont(string name)
+        {
+            if (fonts.TryGetValue(name, out SpriteFont font)) return font;
             return null;
         }
 

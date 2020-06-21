@@ -7,7 +7,7 @@ namespace TowerDefence.Helpers
 {
     public class TowerPlacer
     {
-        public BaseTower TargetTower { get; set; }
+        public Tower TargetTower { get; set; }
 
         public bool HaveTargetTower => TargetTower != null;
 

@@ -13,17 +13,17 @@ namespace TowerDefence.Controllers
     {
         public bool Enabled { get; set; }
         public bool HaveReachedLastWayPoint { get; private set; }
+        public int WayPointIndex { get; private set; }
+        public float DistanceToNextWayPoint { get; private set; }
 
         private Enemy enemy;
-        private int wayPointIndex;
         private Vector2 nextWayPoint;
 
         public EnemyAiController(Enemy enemy)
         {
             this.enemy = enemy;
             this.enemy.Position = GetWayPoint(0);
-            nextWayPoint = GetWayPoint(++wayPointIndex);
-
+            nextWayPoint = GetWayPoint(++WayPointIndex);
             Enabled = true;
         }
 
@@ -32,19 +32,23 @@ namespace TowerDefence.Controllers
             // Move.
             Vector2 direction = nextWayPoint - enemy.Position;
             direction.Normalize();
-            enemy.Position += direction * enemy.Speed;
-            if (IsCloseTo(nextWayPoint, enemy.Speed)) nextWayPoint = GetWayPoint(++wayPointIndex);
+            enemy.Position += direction * enemy.Speed * deltaTime;
+            if (IsCloseTo(nextWayPoint, enemy.Speed * deltaTime)) nextWayPoint = GetWayPoint(++WayPointIndex);
 
             // Rotate.
             Vector2 delta = nextWayPoint - enemy.Position;
             enemy.Rotation = (float)Math.Atan2(delta.Y, delta.X);
 
-            HaveReachedLastWayPoint = HaveReachedLast();
+            HaveReachedLastWayPoint = WayPointIndex == MapManager.LoadedMap.EnemyPath.Length;
         }
 
         public bool HaveReachedLast() =>  MapManager.LoadedMap.EnemyPath.Length > 0 && IsCloseTo(MapManager.LoadedMap.EnemyPath.Last(), enemy.Speed);
 
-        private bool IsCloseTo(Vector2 point, float minRange) => (enemy.Position - point).LengthSquared() <= minRange * minRange;
+        private bool IsCloseTo(Vector2 point, float minRange)
+        {
+            DistanceToNextWayPoint = (enemy.Position - point).LengthSquared();
+            return DistanceToNextWayPoint <= minRange * minRange;
+        }
 
         private Vector2 GetWayPoint(int index)
         {

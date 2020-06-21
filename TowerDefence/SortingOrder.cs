@@ -15,7 +15,9 @@ namespace TowerDefence
         Ground,
         TowerBase,
         Enemies,
+        Bullets,
         TowerTop,
-        Flying
+        Flying,
+        UI
     }
 }

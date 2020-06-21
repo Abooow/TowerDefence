@@ -1,37 +1,51 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using TowerDefence.Controllers;
+using TowerDefence.Factories;
 using TowerDefence.Helpers;
 using TowerDefence.Moldels;
 using TowerDefence.Towers;
+using TowerDefence.Views;
 
 namespace TowerDefence.Managers
 {
-    public class TowerManager
+    public class TowerManager : IController, IView
     {
-        public List<BaseTower> Towers { get; }
+        public bool Enabled { get; set; }
 
-        public TowerManager()
+        public List<Tower> Towers { get; }
+
+        private EnemyManager enemyManager;
+        private SelectTowerController selectTowerController;
+
+        public TowerManager(EnemyManager enemyManager/*, SelectTowerController selectTowerController*/)
         {
-            Towers = new List<BaseTower>();
+            this.enemyManager = enemyManager;
+            this.selectTowerController = selectTowerController;
+
+            Towers = new List<Tower>();
+
+            Enabled = true;
         }
 
-        public void AddTower(BaseTower tower)
+        public void AddTower(Tower tower)
         {
             if (!Towers.Contains(tower)) Towers.Add(tower);
         }
 
-        public bool OverlapsAnyTowers(BaseTower tower)
+        public bool OverlapsAnyTowers(Tower tower)
         {
             if (tower == null) return false;
 
-            foreach (BaseTower otherTower in Towers)
+            foreach (Tower otherTower in Towers)
                 if (Circle.Intercects(tower.Position, tower.BaseRadius, otherTower.Position, otherTower.BaseRadius)) return true;
 
             return false;
         }
 
-        public bool CanPlaceOnMap(BaseTower tower, Map map)
+        public bool CanPlaceOnMap(Tower tower, Map map)
         {
             if (tower == null) return false;
             if (map == null || map.PermittedTowerPlacementTexture == null) return true;
@@ -69,9 +83,17 @@ namespace TowerDefence.Managers
 
         public void Update(float deltaTime)
         {
-            foreach (BaseTower tower in Towers)
+            foreach (Tower tower in Towers)
             {
-                tower.Update(deltaTime);
+                tower.Update(deltaTime, enemyManager.Query(tower.Position, tower.RangeRadius + EnemyFactory.LargestEnemyHitboxRadius));
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            foreach (Tower tower in Towers)
+            {
+                /*if (!(tower == selectTowerController.SelectedTower)) */tower.Draw(spriteBatch, Color.White);
             }
         }
     }

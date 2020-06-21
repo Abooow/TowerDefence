@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace TowerDefence.Controllers
 
         private EnemyManager enemyManager;
 
-        private float maxTimer = 20;
+        private float maxTimer = 0f;
         private float timer;
         private Random random;
 
