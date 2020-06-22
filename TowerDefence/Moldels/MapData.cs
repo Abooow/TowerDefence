@@ -15,13 +15,15 @@ namespace TowerDefence.Moldels
         [XmlIgnore]
         public string FilePath;
 
+        public string ThumbnailPath;
         public string GroundTexturePath;
         public string PermittedTowerPlacementTexturePath;
         public Vector2[] EnemyPath;
 
-        public MapData(string filePath, string groundTexturePath, string permittedTowerPlacementTexturePath, Vector2[] enemyPath)
+        public MapData(string filePath, string thumbnailPath, string groundTexturePath, string permittedTowerPlacementTexturePath, Vector2[] enemyPath)
         {
             FilePath = filePath;
+            ThumbnailPath = thumbnailPath;
             GroundTexturePath = groundTexturePath;
             PermittedTowerPlacementTexturePath = permittedTowerPlacementTexturePath;
             EnemyPath = enemyPath;

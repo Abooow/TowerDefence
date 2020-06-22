@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <Map xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <GroundTexturePath>C:\Users\danie\source\gitRepos\c#\TowerDefence\TowerDefence\Maps\Map1.png</GroundTexturePath>
-  <PermittedTowerPlacementTexturePath>C:\Users\danie\source\gitRepos\c#\TowerDefence\TowerDefence\Maps\Map1PermittedTowerPlaces.png</PermittedTowerPlacementTexturePath>
+  <ThumbnailPath>Map2Thumbnail.png</ThumbnailPath>
+  <GroundTexturePath>Map1.png</GroundTexturePath>
+  <PermittedTowerPlacementTexturePath>Map1PermittedTowerPlaces.png</PermittedTowerPlacementTexturePath>
   <EnemyPath>
     <Vector2>
       <X>14.2084427</X>

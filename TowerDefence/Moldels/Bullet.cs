@@ -41,7 +41,7 @@ namespace TowerDefence.Moldels
             if (traveledDistance >= MaxDistance) return true;
 
             // Rotate.
-            rotation = (float)Math.Atan2(-Direction.Y, -Direction.X);
+            rotation = (float)Math.Atan2(Direction.Y, Direction.X);
 
             // Check for collisions.
             foreach (var enemyPoint in nearbyEnemies)

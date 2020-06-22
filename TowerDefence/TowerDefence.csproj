@@ -42,11 +42,14 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AvailableMapsScrollController.cs" />
     <Compile Include="Controllers\EnemyAiController.cs" />
     <Compile Include="Controllers\EnemySpawnerController.cs" />
     <Compile Include="Controllers\IController.cs" />
     <Compile Include="Controllers\MapMoverController.cs" />
+    <Compile Include="Controllers\SelectMapController.cs" />
     <Compile Include="Controllers\SelectTowerController.cs" />
+    <Compile Include="Controllers\TestTowerPlacerScript.cs" />
     <Compile Include="Factories\BulletFactory.cs" />
     <Compile Include="Factories\EnemyFactory.cs" />
     <Compile Include="Game1.cs" />
@@ -56,12 +59,14 @@
     <Compile Include="Helpers\TowerPlacer.cs" />
     <Compile Include="Helpers\WorldDivider.cs" />
     <Compile Include="Managers\BulletManager.cs" />
+    <Compile Include="Managers\ButtonManager.cs" />
     <Compile Include="Managers\EnemyManager.cs" />
     <Compile Include="Managers\MapManager.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
     <Compile Include="Managers\TowerManager.cs" />
     <Compile Include="Moldels\Animation.cs" />
     <Compile Include="Moldels\Bullet.cs" />
+    <Compile Include="Moldels\Button.cs" />
     <Compile Include="Moldels\Camera.cs" />
     <Compile Include="Moldels\Enemy.cs" />
     <Compile Include="Moldels\IPositionable.cs" />
@@ -73,6 +78,7 @@
     <Compile Include="Screens\Screen.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Screens\LoadScreen.cs" />
+    <Compile Include="Screens\SelectMapScreen.cs" />
     <Compile Include="Screens\TestScreen.cs" />
     <Compile Include="SimpleFps.cs" />
     <Compile Include="SortingOrder.cs" />
@@ -81,6 +87,7 @@
     <Compile Include="Towers\EnemySearchAlgorithms\LastEnemySearch.cs" />
     <Compile Include="Towers\TestTower.cs" />
     <Compile Include="Towers\Tower.cs" />
+    <Compile Include="Views\AvailableMapsView.cs" />
     <Compile Include="Views\IView.cs" />
     <Compile Include="Views\MapView.cs" />
     <Compile Include="Views\SelectedTowerView.cs" />

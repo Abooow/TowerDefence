@@ -19,10 +19,10 @@ namespace TowerDefence.Towers
         public TestTower(BulletManager bulletManager)
             : base(bulletManager, AssetManager.GetSprite("TowerBase2"), AssetManager.GetSprite("Tower1"), 26f, 250f)
         {
-            BaseLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerBase);
-            TopLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerTop);
+            BaseLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerBase) + extraDepth;
+            TopLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerTop) + extraDepth;
 
-            shootRate = 0.3f;
+            shootRate = 0.2f;
             bullet = BulletFactory.GetBullet("Bullet1");
 
             SearchAlgorithm = new FirstEnemySearch();

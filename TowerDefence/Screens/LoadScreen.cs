@@ -17,7 +17,7 @@ namespace TowerDefence.Screens
 
         public override void Update(float deltaTime)
         {
-            ScreenManager.ChangeScreen(new TestScreen());
+            ScreenManager.ChangeScreen(new SelectMapScreen());
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -28,7 +28,10 @@ namespace TowerDefence.Screens
         {
             // Load Maps.
             MapManager.LoadAllMaps();
-            MapManager.LoadMap(MapManager.CreateMap(MapManager.Maps[1], Game1.Graphics));
+            for (int i = 0; i < MapManager.TotalLoadedMaps; i++)
+            {
+                AssetManager.AddTexture($"Thumbnail{i}", AssetManager.LoadTexture2D(Game1.Graphics, MapManager.Maps[i].ThumbnailPath));
+            }
 
             // Load Textures.
             Texture2D pixel = new Texture2D(Game1.Graphics, 1, 1);
@@ -47,6 +50,7 @@ namespace TowerDefence.Screens
             AssetManager.AddSprite("Enemy3", new Sprite(tileSheet, new Rectangle(1088, 640, 64, 64), new Vector2(32, 32)));
             AssetManager.AddSprite("Enemy4", new Sprite(tileSheet, new Rectangle(1152, 640, 64, 64), new Vector2(32, 32)));
             AssetManager.AddSprite("Bullet1", new Sprite(tileSheet, new Rectangle(1216, 704, 64, 64), new Vector2(32, 32)));
+            AssetManager.AddSprite("Bullet2", new Sprite(tileSheet, new Rectangle(1344, 640, 64, 64), new Vector2(42, 30)));
             AssetManager.AddSprite("TowerBase1", new Sprite(tileSheet, new Rectangle(1216, 448, 64, 64), new Vector2(32, 32)));
             AssetManager.AddSprite("TowerBase2", new Sprite(tileSheet, new Rectangle(1280, 448, 64, 64), new Vector2(32, 32)));
             AssetManager.AddSprite("TowerBase3", new Sprite(tileSheet, new Rectangle(1344, 448, 64, 64), new Vector2(32, 32)));
@@ -54,14 +58,14 @@ namespace TowerDefence.Screens
             
             // Create Enemy prefabs.
             float enemyLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Enemies);
-            EnemyFactory.Add("Enemy1", new Enemy(AssetManager.GetSprite("Enemy1"), 15f, 1f, 280f, 100f, 10f, 5f, enemyLayerDepth + 0.000f));
+            EnemyFactory.Add("Enemy1", new Enemy(AssetManager.GetSprite("Enemy1"), hitboxRadius: 15f, scale: 1f, speed: 280f, health: 100f, armor: 10f, damage: 5f, enemyLayerDepth + 0.000f));
             EnemyFactory.Add("Enemy2", new Enemy(AssetManager.GetSprite("Enemy2"), 15f, 1.1f, 450f, 300f, 20f, 10f, enemyLayerDepth + 0.001f));
-            EnemyFactory.Add("Enemy3", new Enemy(AssetManager.GetSprite("Enemy3"), 15f, 1.5f, 210f, 800f, 50f, 24f, enemyLayerDepth + 0.002f));
-            EnemyFactory.Add("Enemy4", new Enemy(AssetManager.GetSprite("Enemy4"), 15f, 3f, 100f, 1500f, 110f, 50f, enemyLayerDepth + 0.003f));
+            EnemyFactory.Add("Enemy3", new Enemy(AssetManager.GetSprite("Enemy3"), 20f, 1.5f, 280f, 1500f, 130f, 24f, enemyLayerDepth + 0.002f));
+            EnemyFactory.Add("Enemy4", new Enemy(AssetManager.GetSprite("Enemy4"), 30f, 3f, 100f, 1500f, 110f, 50f, enemyLayerDepth + 0.003f));
 
             // Create Bullet prefabs.
             float bulletLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Bullets);
-            BulletFactory.Add("Bullet1", new Bullet(AssetManager.GetSprite("Bullet1"), 400f, 1000f, 200f, bulletLayerDepth + 0.000f));
+            BulletFactory.Add("Bullet1", new Bullet(AssetManager.GetSprite("Bullet2"), 400f, 1000f, 200f, bulletLayerDepth + 0.000f));
         }
     }
 }

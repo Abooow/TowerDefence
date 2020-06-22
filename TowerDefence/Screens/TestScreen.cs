@@ -42,6 +42,7 @@ namespace TowerDefence.Screens
             controllers.Add(enemyManager);
             controllers.Add(towerManager);
             controllers.Add(bulletManager);
+            //controllers.Add(new TestTowerPlacerScript(towerPlacer, bulletManager)); // TEST!
 
             // Views.
             views.Add(new SelectedTowerView(selectTowerController));
@@ -49,6 +50,13 @@ namespace TowerDefence.Screens
             views.Add(enemyManager);
             views.Add(towerManager);
             views.Add(bulletManager);
+                spawnerController.Enabled = false;
+
+            a = new SamplerState()
+            {
+                FilterMode = TextureFilterMode.Default,
+                Filter = TextureFilter.Point,
+            };
         }
 
         public override void Update(float deltaTime)
@@ -56,9 +64,7 @@ namespace TowerDefence.Screens
             towerManager.Update(deltaTime);
 
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
-                spawnerController.Enabled = true;
-            else
-                spawnerController.Enabled = false;
+                spawnerController.Enabled = !spawnerController.Enabled;
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
@@ -73,13 +79,18 @@ namespace TowerDefence.Screens
                 if (towerPlacer.TargetTower != null)
                     towerPlacer.PlaceTower();
             }
+            else if (Mouse.GetState().RightButton == ButtonState.Pressed)
+            {
+                if (towerPlacer.TargetTower != null) towerPlacer.TargetTower = null;
+            }
 
             base.Update(deltaTime);
         }
 
+        SamplerState a;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointWrap, null, null, null, camera.GetTranslationMatrix());
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, camera.GetTranslationMatrix());
 
             // Draw tower to place.
             towerPlacer.Draw(spriteBatch);

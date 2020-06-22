@@ -6,18 +6,22 @@ namespace TowerDefence
     {
         public static float GetLayerDepth(int sortingOrder, SortingLayer layer)
         {
-            return ((float)layer * 1000f + sortingOrder + 1000f) / (Enum.GetValues(typeof(SortingLayer)).Length * 1000f + 1000f);
+            return ((float)layer * 500f + sortingOrder + 500f) / (Enum.GetValues(typeof(SortingLayer)).Length * 500f + 500f);
         }
     }
 
     public enum SortingLayer
     {
+        Background,
         Ground,
         TowerBase,
         Enemies,
         Bullets,
         TowerTop,
         Flying,
-        UI
+        Ui,
+        UiText,
+        Popups,
+        PopupsText
     }
 }

@@ -12,6 +12,7 @@ namespace TowerDefence
     /// </summary>
     public class Game1 : Game
     {
+        public static Point ScreenSize { get; private set; }
         public static ContentManager ContentManager;
         public static GraphicsDevice Graphics;
 
@@ -29,6 +30,8 @@ namespace TowerDefence
             IsFixedTimeStep = false;
             graphics.PreferredBackBufferWidth  = 1000;
             graphics.PreferredBackBufferHeight = 550;
+
+            ScreenSize = new Point(1000, 550);
         }
 
         /// <summary>
@@ -74,8 +77,7 @@ namespace TowerDefence
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.F11)) Exit();
 
             fpsCounter.Update(gameTime);
             Window.Title = fpsCounter.msg;

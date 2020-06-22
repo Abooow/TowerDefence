@@ -15,7 +15,7 @@ namespace TowerDefence.Controllers
 
         private EnemyManager enemyManager;
 
-        private float maxTimer = 0f;
+        private float maxTimer = 0.0f;
         private float timer;
         private Random random;
 
@@ -30,9 +30,9 @@ namespace TowerDefence.Controllers
         public void Update(float deltaTime)
         {
             timer -= deltaTime;
-            if (timer <= 0)
+            if (timer <= 0f)
             {
-                enemyManager.Add(EnemyFactory.GetEnemy($"Enemy{random.Next(1, 5)}"));
+                enemyManager.Spawn(EnemyFactory.GetEnemy($"Enemy3"));
                 timer = maxTimer;
             }
         }

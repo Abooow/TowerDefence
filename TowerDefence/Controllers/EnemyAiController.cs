@@ -16,37 +16,42 @@ namespace TowerDefence.Controllers
         public int WayPointIndex { get; private set; }
         public float DistanceToNextWayPoint { get; private set; }
 
-        private Enemy enemy;
+        private Enemy attachedEnemy;
         private Vector2 nextWayPoint;
 
         public EnemyAiController(Enemy enemy)
         {
-            this.enemy = enemy;
-            this.enemy.Position = GetWayPoint(0);
-            nextWayPoint = GetWayPoint(++WayPointIndex);
+            attachedEnemy = enemy;
+
             Enabled = true;
+        }
+
+        public void InitializePosition()
+        {
+            attachedEnemy.Position = GetWayPoint(0);
+            nextWayPoint = GetWayPoint(++WayPointIndex);
         }
 
         public void Update(float deltaTime)
         {
             // Move.
-            Vector2 direction = nextWayPoint - enemy.Position;
+            Vector2 direction = nextWayPoint - attachedEnemy.Position;
             direction.Normalize();
-            enemy.Position += direction * enemy.Speed * deltaTime;
-            if (IsCloseTo(nextWayPoint, enemy.Speed * deltaTime)) nextWayPoint = GetWayPoint(++WayPointIndex);
+            attachedEnemy.Position += direction * attachedEnemy.Speed * deltaTime;
+            if (IsCloseTo(nextWayPoint, attachedEnemy.Speed * deltaTime)) nextWayPoint = GetWayPoint(++WayPointIndex);
 
             // Rotate.
-            Vector2 delta = nextWayPoint - enemy.Position;
-            enemy.Rotation = (float)Math.Atan2(delta.Y, delta.X);
+            Vector2 delta = nextWayPoint - attachedEnemy.Position;
+            attachedEnemy.Rotation = (float)Math.Atan2(delta.Y, delta.X);
 
             HaveReachedLastWayPoint = WayPointIndex == MapManager.LoadedMap.EnemyPath.Length;
         }
 
-        public bool HaveReachedLast() =>  MapManager.LoadedMap.EnemyPath.Length > 0 && IsCloseTo(MapManager.LoadedMap.EnemyPath.Last(), enemy.Speed);
+        public bool HaveReachedLast() =>  MapManager.LoadedMap.EnemyPath.Length > 0 && IsCloseTo(MapManager.LoadedMap.EnemyPath.Last(), attachedEnemy.Speed);
 
         private bool IsCloseTo(Vector2 point, float minRange)
         {
-            DistanceToNextWayPoint = (enemy.Position - point).LengthSquared();
+            DistanceToNextWayPoint = (attachedEnemy.Position - point).LengthSquared();
             return DistanceToNextWayPoint <= minRange * minRange;
         }
 

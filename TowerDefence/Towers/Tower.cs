@@ -11,6 +11,8 @@ namespace TowerDefence.Towers
 {
     public abstract class Tower : IPositionable
     {
+        internal static float extraDepth;
+
         public BulletManager BulletManager { get; }
         public Vector2 Position { get; set; }
         public float BaseRadius { get; set; }
@@ -49,6 +51,8 @@ namespace TowerDefence.Towers
 
             RangeTexture = rangeTextue;
             BaseRangeTexture = baseRangeTextue;
+
+            extraDepth += 0.0000001f;
         }
 
         public virtual void Update(float deltaTime, List<List<WorldDivider<Enemy>.PointData>> nearbyEnemies)

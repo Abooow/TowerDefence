@@ -31,7 +31,7 @@ namespace TowerDefence.Managers
         {
             Enemies = new List<Enemy>();
 
-            float gridWidth = 150;
+            float gridWidth = 165;
             Point mapSize = MapManager.LoadedMap.GroundTexture.Bounds.Size;
             Point totalGrids = new Point((int)Math.Ceiling(mapSize.X / gridWidth), (int)Math.Ceiling(mapSize.Y / gridWidth));
             Point gridSize = new Point((int)Math.Ceiling(mapSize.X / (float)totalGrids.X), (int)Math.Ceiling(mapSize.Y / (float)totalGrids.Y));
@@ -39,15 +39,17 @@ namespace TowerDefence.Managers
             worldDivider = new WorldDivider<Enemy>(totalGrids, gridSize);
 
             font = AssetManager.GetFont("BaseFont");
-            layerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.UI);
+            layerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Ui);
 
+            DebugWorldDivider = true;
             Enabled = true;
         }
 
-        public void Add(Enemy enemy)
+        public void Spawn(Enemy enemy)
         {
             if (enemy != null && !Enemies.Contains(enemy))
             {
+                enemy.AiController.InitializePosition();
                 Enemies.Add(enemy);
                 worldDivider.AddPoint(enemy);
             }
@@ -97,7 +99,7 @@ namespace TowerDefence.Managers
                             AssetManager.GetTexture("Pixel"),
                             new Rectangle(new Point(x, y) * worldDivider.GridSize, worldDivider.GridSize),
                             null,
-                            Color.Red * (totalEnemies / 10f),
+                            Color.Red * (totalEnemies / 100f),
                             0f,
                             Vector2.Zero,
                             SpriteEffects.None,
@@ -108,10 +110,10 @@ namespace TowerDefence.Managers
                             font,
                             totalEnemies.ToString(),
                             (new Point(x, y) * worldDivider.GridSize).ToVector2() + worldDivider.GridSize.ToVector2() * 0.5f,
-                            Color.Beige,
+                            Color.Black * 0.8f,
                             0f,
                             font.MeasureString(totalEnemies.ToString()) * new Vector2(0.5f),
-                            2f,
+                            2.5f,
                             SpriteEffects.None,
                             layerDepth + 0.001f);
                     }

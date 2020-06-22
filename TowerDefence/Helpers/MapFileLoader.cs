@@ -24,11 +24,27 @@ namespace TowerDefence.Helpers
                 using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
                     MapData? map = serializer.Deserialize(fs) as MapData?;
-                    if (map != null) maps.Add((MapData)map);
+                    if (map != null)
+                    {
+                        MapData map_ = (MapData)map;
+                        map_.FilePath = filePath;
+                        string directory = Path.GetDirectoryName(filePath);
+                        map_.ThumbnailPath = Path.Combine(directory, map_.ThumbnailPath);
+                        map_.GroundTexturePath = Path.Combine(directory, map_.GroundTexturePath);
+                        map_.PermittedTowerPlacementTexturePath = Path.Combine(directory, map_.PermittedTowerPlacementTexturePath);
+                        maps.Add(map_);
+                    }
                 }
             }
 
             return maps.ToArray();
+        }
+
+        private static string GetPath(string filePath, string path)
+        {
+            string p = Path.Combine(filePath, path);
+            if (path.Contains(':')) return path;
+            return p;
         }
 
         [Obsolete]
