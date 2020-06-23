@@ -9,14 +9,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MapEditor.Views
 {
-    public class WayPointConnectionView : IView
+    public class WaypointConnectionView : IView
     {
         public bool Enabled { get; set; }
 
         private float lineLayerDepth;
         private Texture2D pixel;
 
-        public WayPointConnectionView()
+        public WaypointConnectionView()
         {
             lineLayerDepth = SortingOrder.GetLayerDepth(-5, SortingLayer.WayPoints);
             pixel = new Texture2D(Game1.Graphics, 1, 1);
@@ -27,9 +27,9 @@ namespace MapEditor.Views
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < WayPointManager.WayPoints.Count - 1; i++)
+            for (int i = 0; i < WaypointManager.WayPoints.Count - 1; i++)
             {
-                DrawLine(spriteBatch, WayPointManager.WayPoints[i].Position, WayPointManager.WayPoints[i + 1].Position, Color.Black * 0.9f, 3f);
+                DrawLine(spriteBatch, WaypointManager.WayPoints[i].Position, WaypointManager.WayPoints[i + 1].Position, Color.Black * 0.9f, 3f);
             }
         }
 

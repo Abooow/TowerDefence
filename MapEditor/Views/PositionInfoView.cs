@@ -18,9 +18,9 @@ namespace MapEditor.Views
         public bool Enabled { get; set; }
 
         private Camera camera;
-        private WayPointSelector pointSelector;
+        private WaypointSelector pointSelector;
 
-        public PositionInfoView(Camera camera, WayPointSelector pointSelector)
+        public PositionInfoView(Camera camera, WaypointSelector pointSelector)
         {
             this.camera = camera;
             this.pointSelector = pointSelector;
@@ -35,9 +35,9 @@ namespace MapEditor.Views
             string mousePosStr = $"Mouse: {camera.ScreenToWorldPoint(Mouse.GetState().Position.ToVector2())}";
             spriteBatch.DrawString(Font, mousePosStr, new Vector2(800, 0), Color.Black, 0f, Font.MeasureString(mousePosStr) * new Vector2(1f, 0f), 1f, SpriteEffects.None, 1f);
 
-            if (pointSelector.SelectedWayPoint != null)
+            if (pointSelector.SelectedWaypoint != null)
             {
-                string selectedPointPosStr = $"Selected point: {pointSelector.SelectedWayPoint.Position}";
+                string selectedPointPosStr = $"Selected point: {pointSelector.SelectedWaypoint.Position}";
                 spriteBatch.DrawString(Font, selectedPointPosStr, new Vector2(800, 25), Color.Black, 0f, Font.MeasureString(selectedPointPosStr) * new Vector2(1f, 0f), 1f, SpriteEffects.None, 1f);
             }
         }

@@ -24,8 +24,8 @@ namespace MapEditor.Screens
 
         private void Load()
         {
-            WayPointManager.DefaultWayPointRadius = 13f;
-            WayPointManager.DefaultWayPointTexture = Circle.GetTexture(Game1.Graphics, 26);
+            WaypointManager.DefaultWaypointRadius = 13f;
+            WaypointManager.DefaultWaypointTexture = Circle.GetTexture(Game1.Graphics, 26);
 
             MapManager.Load(Game1.Graphics, @"C:\Users\danie\source\gitRepos\c#\TowerDefence\TowerDefence\Maps\Map1.png", @"C:\Users\danie\source\gitRepos\c#\TowerDefence\TowerDefence\Maps\Map1PermittedTowerPlaces.png");
         }

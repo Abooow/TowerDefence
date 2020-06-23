@@ -22,19 +22,19 @@ namespace MapEditor.Screens
                 Scale = new Vector2(1f)
             };
 
-            WayPointSelector pointSelector;
+            WaypointSelector pointSelector;
 
             // Controllers.
             controllers.Add(new SaveMapController());
             controllers.Add(new MapMoverController(camera));
-            controllers.Add(pointSelector = new WayPointSelector(camera));
-            controllers.Add(new WayPointPlacer(camera, pointSelector));
-            controllers.Add(new WayPointEditorController(camera, pointSelector));
+            controllers.Add(pointSelector = new WaypointSelector(camera));
+            controllers.Add(new WaypointPlacer(camera, pointSelector));
+            controllers.Add(new WaypointEditorController(camera, pointSelector));
 
             // Views.
             views.Add(new MapView());
-            views.Add(new WayPointView(pointSelector));
-            views.Add(new WayPointConnectionView());
+            views.Add(new WaypointView(pointSelector));
+            views.Add(new WaypointConnectionView());
 
             // UI.
             uiViews.Add(new PositionInfoView(camera, pointSelector));

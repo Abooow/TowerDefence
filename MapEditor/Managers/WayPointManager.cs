@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace MapEditor.Managers
 {
-    public static class WayPointManager
+    public static class WaypointManager
     {
-        public static float DefaultWayPointRadius;
-        public static Texture2D DefaultWayPointTexture;
-        public static List<WayPoint> WayPoints { get; private set; } = new List<WayPoint>();
+        public static float DefaultWaypointRadius;
+        public static Texture2D DefaultWaypointTexture;
+        public static List<Waypoint> WayPoints { get; private set; } = new List<Waypoint>();
 
         public static void AddPoint(Vector2 position)
         {
@@ -24,7 +24,7 @@ namespace MapEditor.Managers
                 return false;
             }
 
-            if (!ExistPosition()) WayPoints.Add(new WayPoint(position, DefaultWayPointRadius, DefaultWayPointTexture));
+            if (!ExistPosition()) WayPoints.Add(new Waypoint(position, DefaultWaypointRadius, DefaultWaypointTexture));
         }
     }
 }

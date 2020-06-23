@@ -18,9 +18,9 @@ namespace MapEditor.Helpers
         {
             Vector2[] GetWayPointPositions()
             {
-                Vector2[] positions = new Vector2[WayPointManager.WayPoints.Count];
-                for (int i = 0; i < WayPointManager.WayPoints.Count; i++)
-                    positions[i] = WayPointManager.WayPoints[i].Position;
+                Vector2[] positions = new Vector2[WaypointManager.WayPoints.Count];
+                for (int i = 0; i < WaypointManager.WayPoints.Count; i++)
+                    positions[i] = WaypointManager.WayPoints[i].Position;
                 return positions;
             }
 

@@ -11,17 +11,17 @@ using System.Threading.Tasks;
 
 namespace MapEditor.Controllers
 {
-    public class WayPointEditorController : IController
+    public class WaypointEditorController : IController
     {
         public bool Enabled { get; set; }
 
-        private WayPointSelector pointSelector;
+        private WaypointSelector pointSelector;
         private Camera camera;
 
         private Point oldMousePos;
         private bool haveSelectedPoint;
 
-        public WayPointEditorController(Camera camera, WayPointSelector pointSelector)
+        public WaypointEditorController(Camera camera, WaypointSelector pointSelector)
         {
             this.pointSelector = pointSelector;
             this.camera = camera;
@@ -33,7 +33,7 @@ namespace MapEditor.Controllers
         {
             MouseState mouseState = Mouse.GetState();
 
-            if (pointSelector.SelectedWayPoint != null)
+            if (pointSelector.SelectedWaypoint != null)
             {
                 // Move point.
                 if (mouseState.LeftButton == ButtonState.Pressed && pointSelector.MouseIsOverAWayPoint(out _))
@@ -46,13 +46,13 @@ namespace MapEditor.Controllers
                     pointSelector.Enabled = true;
                     haveSelectedPoint = false;
                 }
-                if (haveSelectedPoint) pointSelector.SelectedWayPoint.Position -= (oldMousePos - mouseState.Position).ToVector2() / camera.Scale.X;
+                if (haveSelectedPoint) pointSelector.SelectedWaypoint.Position -= (oldMousePos - mouseState.Position).ToVector2() / camera.Scale.X;
 
                 // Delete point.
-                if (Keyboard.GetState().IsKeyDown(Keys.Delete)) WayPointManager.WayPoints.Remove(pointSelector.SelectedWayPoint);
+                if (Keyboard.GetState().IsKeyDown(Keys.Delete)) WaypointManager.WayPoints.Remove(pointSelector.SelectedWaypoint);
                 
                 // Deselect point.
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.Delete)) pointSelector.SelectedWayPoint = null;
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape) || Keyboard.GetState().IsKeyDown(Keys.Delete)) pointSelector.SelectedWaypoint = null;
             }
             else pointSelector.Enabled = true;
 

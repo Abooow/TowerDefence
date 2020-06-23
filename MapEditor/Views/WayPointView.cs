@@ -12,34 +12,34 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MapEditor.Views
 {
-    public class WayPointView : IView
+    public class WaypointView : IView
     {
         public bool Enabled { get; set; }
 
-        private WayPointSelector pointSelector;
-        private Texture2D selectedWayPointHightLight;
-        private float wayPointLayerDepth;
+        private WaypointSelector pointSelector;
+        private Texture2D selectedWaypointHightLight;
+        private float waypointLayerDepth;
 
-        public WayPointView(WayPointSelector pointSelector)
+        public WaypointView(WaypointSelector pointSelector)
         {
             this.pointSelector = pointSelector;
 
-            selectedWayPointHightLight = Circle.GetTexture(Game1.Graphics, (int)(WayPointManager.DefaultWayPointRadius * 2 * 1.3f));
-            wayPointLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.WayPoints);
+            selectedWaypointHightLight = Circle.GetTexture(Game1.Graphics, (int)(WaypointManager.DefaultWaypointRadius * 2 * 1.3f));
+            waypointLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.WayPoints);
 
             Enabled = true;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < WayPointManager.WayPoints.Count; i++)
+            for (int i = 0; i < WaypointManager.WayPoints.Count; i++)
             {
-                WayPoint point = WayPointManager.WayPoints[i];
+                Waypoint point = WaypointManager.WayPoints[i];
 
-                if (point == pointSelector.SelectedWayPoint)
+                if (point == pointSelector.SelectedWaypoint)
                 {
                     spriteBatch.Draw(
-                        selectedWayPointHightLight,
+                        selectedWaypointHightLight,
                         point.Position - new Vector2(point.Radius * 1.3f),
                         null,
                         Color.DarkBlue,
@@ -47,7 +47,7 @@ namespace MapEditor.Views
                         Vector2.Zero,
                         1f,
                         SpriteEffects.None,
-                        wayPointLayerDepth - 0.001f);
+                        waypointLayerDepth - 0.001f);
                 }
 
                 spriteBatch.Draw(
@@ -59,7 +59,7 @@ namespace MapEditor.Views
                     Vector2.Zero,
                     1f,
                     SpriteEffects.None,
-                    wayPointLayerDepth);
+                    waypointLayerDepth);
 
                 spriteBatch.DrawString(
                     PositionInfoView.Font, 
@@ -70,7 +70,7 @@ namespace MapEditor.Views
                     PositionInfoView.Font.MeasureString(i.ToString()) * new Vector2(0.5f, 1f),
                     1f, 
                     SpriteEffects.None,
-                    wayPointLayerDepth);
+                    waypointLayerDepth);
             }
         }
     }

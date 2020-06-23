@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace MapEditor.Controllers
 {
-    public class WayPointSelector : IController
+    public class WaypointSelector : IController
     {
         public bool Enabled { get; set; }
-        public WayPoint SelectedWayPoint { get; set; }
+        public Waypoint SelectedWaypoint { get; set; }
 
         private Camera camera;
         private MouseState mouseState;
 
-        public WayPointSelector(Camera camera)
+        public WaypointSelector(Camera camera)
         {
             this.camera = camera;
 
@@ -31,16 +31,16 @@ namespace MapEditor.Controllers
 
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
-                if (MouseIsOverAWayPoint(out WayPoint wayPoint))
-                    SelectedWayPoint = wayPoint;
+                if (MouseIsOverAWayPoint(out Waypoint wayPoint))
+                    SelectedWaypoint = wayPoint;
                 else
-                    SelectedWayPoint = null;
+                    SelectedWaypoint = null;
             }
         }
 
-        public bool MouseIsOverAWayPoint(out WayPoint wayPoint)
+        public bool MouseIsOverAWayPoint(out Waypoint wayPoint)
         {
-            foreach (WayPoint point in WayPointManager.WayPoints)
+            foreach (Waypoint point in WaypointManager.WayPoints)
             {
                 if (Circle.Contains(point.Position, point.Radius, camera.ScreenToWorldPoint(mouseState.Position.ToVector2())))
                 {
