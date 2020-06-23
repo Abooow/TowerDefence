@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TowerDefence.Controllers;
+using TowerDefence.Helpers;
 
 namespace TowerDefence.Moldels
 {
-    public class Enemy : IPositionable
+    public class Enemy : SpaceUnit
     {
         public Vector2 Position { get; set; }
         public Sprite Sprite { get; set; }
@@ -24,7 +25,8 @@ namespace TowerDefence.Moldels
         public EnemyAiController AiController { get; }
         public bool HaveReachedLastWayPoint { get; private set; }
 
-        public Enemy(Sprite sprite, float hitboxRadius, float scale, float speed, float health, float armor, float damage, float layerDepth)
+        public Enemy(SpacePartitioner spacePartitioner, Sprite sprite, float hitboxRadius, float scale, float speed, float health, float armor, float damage, float layerDepth)
+            : base(spacePartitioner)
         {
             Sprite = sprite;
             HitboxRadius = hitboxRadius;
@@ -67,11 +69,6 @@ namespace TowerDefence.Moldels
             else damageMultiplier = 2f - (100f / (100 - Armor));
 
             Health -= damage * damageMultiplier;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj == null ? false : obj == this;
         }
     }
 }

@@ -37,7 +37,7 @@ namespace TowerDefence.Controllers
             // Move.
             Vector2 direction = nextWayPoint - attachedEnemy.Position;
             direction.Normalize();
-            attachedEnemy.Position += direction * attachedEnemy.Speed * deltaTime;
+            attachedEnemy.Move(attachedEnemy.Position + direction * attachedEnemy.Speed * deltaTime);
             if (IsCloseTo(nextWayPoint, attachedEnemy.Speed * deltaTime)) nextWayPoint = GetWayPoint(++WayPointIndex);
 
             // Rotate.

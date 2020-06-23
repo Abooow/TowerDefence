@@ -31,7 +31,7 @@ namespace TowerDefence.Moldels
             LayerDepth = layerDepth;
         }
 
-        public bool Update(float deltaTime, List<WorldDivider<Enemy>.PointData> nearbyEnemies)
+        public bool Update(float deltaTime, List<SpacePartitioner<Enemy>.PointData> nearbyEnemies)
         {
             // Move.
             float distance = Speed * deltaTime;

@@ -28,7 +28,7 @@ namespace TowerDefence.Towers
             SearchAlgorithm = new FirstEnemySearch();
         }
 
-        public override void Update(float deltaTime, List<List<WorldDivider<Enemy>.PointData>> nearbyEnemies)
+        public override void Update(float deltaTime, List<List<SpacePartitioner<Enemy>.PointData>> nearbyEnemies)
         {
             if (SearchAlgorithm != null)
             {

@@ -10,7 +10,7 @@ namespace TowerDefence.Towers.EnemySearchAlgorithms
 {
     public class FirstEnemySearch : ISearchAlgorithm
     {
-        public Enemy FindEnemy(Tower tower, List<List<WorldDivider<Enemy>.PointData>> nearbyEnemies)
+        public Enemy FindEnemy(Tower tower, List<List<SpacePartitioner<Enemy>.PointData>> nearbyEnemies)
         {
             int lastWayPoint = 0;
             //float shortestDistanceToWayPoint = float.PositiveInfinity;

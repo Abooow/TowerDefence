@@ -18,9 +18,9 @@ namespace TowerDefence.Controllers
         {
             Tower towerInfo = new TestTower(bulletManager);
 
-            for (int y = 0; y < MapManager.LoadedMap.PermittedTowerPlacementTexture.Height / (towerInfo.BaseRadius * 2) / 2; y++)
+            for (int y = 0; y < MapManager.LoadedMap.PermittedTowerPlacementTexture.Height / (towerInfo.BaseRadius * 2); y++)
             {
-                for (int x = 0; x < MapManager.LoadedMap.PermittedTowerPlacementTexture.Width / (towerInfo.BaseRadius * 2) / 2; x++)
+                for (int x = 0; x < MapManager.LoadedMap.PermittedTowerPlacementTexture.Width / (towerInfo.BaseRadius * 2); x++)
                 {
                     towerPlacer.TargetTower = new TestTower(bulletManager);
                     towerPlacer.MoveTower(new Vector2(x * towerInfo.BaseRadius * 2, y * towerInfo.BaseRadius * 2));

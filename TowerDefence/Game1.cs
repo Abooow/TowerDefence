@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Diagnostics;
 using TowerDefence.Managers;
 using TowerDefence.Screens;
 
@@ -21,17 +23,20 @@ namespace TowerDefence
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private SimpleFps fpsCounter;
+        private DateTime time;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            IsFixedTimeStep = false;
+            IsFixedTimeStep = true;
+            TargetElapsedTime = TimeSpan.FromSeconds(1d / 100d);
             graphics.PreferredBackBufferWidth  = 1000;
             graphics.PreferredBackBufferHeight = 550;
 
             ScreenSize = new Point(1000, 550);
+            time = DateTime.Now;
         }
 
         /// <summary>
@@ -77,14 +82,18 @@ namespace TowerDefence
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            DateTime now = DateTime.Now;
+
+            float elapsed = (float)(now - time).TotalSeconds;
             if (Keyboard.GetState().IsKeyDown(Keys.F11)) Exit();
 
-            fpsCounter.Update(gameTime);
+            fpsCounter.Update(elapsed);
             Window.Title = fpsCounter.msg;
 
-            ScreenManager.Update((gameTime.ElapsedGameTime.Milliseconds / 1000f) * GameSpeed);
+            ScreenManager.Update(elapsed * GameSpeed);
 
             base.Update(gameTime);
+            time = now;
         }
 
         /// <summary>

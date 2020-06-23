@@ -8,29 +8,22 @@ namespace TowerDefence
     public class SimpleFps
     {
         private double frames = 0;
-        private double updates = 0;
         private double elapsed = 0;
-        private double last = 0;
-        private double now = 0;
         public double msgFrequency = 1f;
         public string msg = " ";
 
         /// <summary>
         /// The msgFrequency here is the reporting time to update the message.
         /// </summary>
-        public void Update(GameTime gameTime)
+        public void Update(float deltaTime)
         {
-            now = gameTime.TotalGameTime.TotalSeconds;
-            elapsed = (double)(now - last);
+            elapsed += deltaTime;
             if (elapsed > msgFrequency)
             {
-                msg = " Fps: " + (frames / elapsed).ToString(".0") + "\n Elapsed time: " + elapsed.ToString("0.0") + "\n Updates: " + updates.ToString() + "\n Frames: " + frames.ToString();
+                msg = $"Fps: {(frames / elapsed):.0} Elapsed time: {elapsed:0.0}";
                 elapsed = 0;
                 frames = 0;
-                updates = 0;
-                last = now;
             }
-            updates++;
             frames++;
         }
 

@@ -42,7 +42,7 @@ namespace TowerDefence.Screens
             controllers.Add(enemyManager);
             controllers.Add(towerManager);
             controllers.Add(bulletManager);
-            //controllers.Add(new TestTowerPlacerScript(towerPlacer, bulletManager)); // TEST!
+            controllers.Add(new TestTowerPlacerScript(towerPlacer, bulletManager)); // TEST!
 
             // Views.
             views.Add(new SelectedTowerView(selectTowerController));
