@@ -18,6 +18,7 @@ namespace TowerDefence.Moldels
 
         private SpacePartitioner spacePartitioner;
 
+        private bool wasInsideWorld;
         private bool haveBeenAdded;
 
         public SpaceUnit(SpacePartitioner spacePartitioner)
@@ -31,21 +32,32 @@ namespace TowerDefence.Moldels
 
         public void Move(Vector2 newPosition)
         {
+            wasInsideWorld = IsInsideWorld;
             OldCellPosition = new Point((int)(Position.X / spacePartitioner.GridSize.X), (int)(Position.Y / spacePartitioner.GridSize.Y));
             Position = newPosition;
             CellPosition = new Point((int)(Position.X / spacePartitioner.GridSize.X), (int)(Position.Y / spacePartitioner.GridSize.Y));
+            bool isInsideWorld = IsInsideWorld;
+
+            Point oldCellPos = (Point)OldCellPosition;
+            if (CellPosition != oldCellPos || (wasInsideWorld != isInsideWorld))
+            {
+                if (wasInsideWorld != isInsideWorld)
+                {
+
+                }
+
+                spacePartitioner.Grids[oldCellPos.Y][oldCellPos.X].Remove(this);
+                if (IsInsideWorld) spacePartitioner.Grids[CellPosition.Y][CellPosition.X].Add(this);
+
+            }
         }
 
         public void AddToWorld()
         {
             if (!haveBeenAdded)
             {
-                if (OldCellPosition != null)
-                {
-                    Point oldCellPos = (Point)OldCellPosition;
-                    spacePartitioner.Grids[][]
-
-                }
+                if (IsInsideWorld) spacePartitioner.Grids[CellPosition.Y][CellPosition.X].Add(this);
+                else spacePartitioner.OutOfBoundsUnits.Add(this);
 
                 haveBeenAdded = true;
             }
@@ -55,6 +67,9 @@ namespace TowerDefence.Moldels
         {
             if (haveBeenAdded)
             {
+                if (IsInsideWorld) spacePartitioner.Grids[CellPosition.Y][CellPosition.X].Remove(this);
+                else spacePartitioner.OutOfBoundsUnits.Remove(this);
+
                 haveBeenAdded = false;
             }
         }

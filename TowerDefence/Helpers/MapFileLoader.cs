@@ -47,34 +47,34 @@ namespace TowerDefence.Helpers
             return p;
         }
 
-        [Obsolete]
-        private static (string GroundTexturePath, string PermittedTowerPlacementTexturePath) GetMapData(string path)
-        {
-            string[] lines = File.ReadAllLines(path);
-            string GroundTexturePath = "";
-            string PermittedTowerPlacementTexturePath = "";
+        //[Obsolete]
+        //private static (string GroundTexturePath, string PermittedTowerPlacementTexturePath) GetMapData(string path)
+        //{
+        //    string[] lines = File.ReadAllLines(path);
+        //    string GroundTexturePath = "";
+        //    string PermittedTowerPlacementTexturePath = "";
 
-            string GetValueStr(string line, string key)
-            {
-                if (line.Trim().ToLower().StartsWith(key.ToLower()))
-                {
-                    string[] valueString = line.Split(new char[] { '=', '\n', '\r' }, 2, StringSplitOptions.RemoveEmptyEntries);
-                    if (valueString.Length > 1) return valueString[1].Trim();
-                }
+        //    string GetValueStr(string line, string key)
+        //    {
+        //        if (line.Trim().ToLower().StartsWith(key.ToLower()))
+        //        {
+        //            string[] valueString = line.Split(new char[] { '=', '\n', '\r' }, 2, StringSplitOptions.RemoveEmptyEntries);
+        //            if (valueString.Length > 1) return valueString[1].Trim();
+        //        }
 
-                return "";
-            }
+        //        return "";
+        //    }
 
-            foreach (string line in lines)
-            {
-                string groundTexturePath = GetValueStr(line, "GroundTexturePath");
-                string permittedTowerPlacementTexturePath = GetValueStr(line, "PermittedTowerPlacementTexturePath");
+        //    foreach (string line in lines)
+        //    {
+        //        string groundTexturePath = GetValueStr(line, "GroundTexturePath");
+        //        string permittedTowerPlacementTexturePath = GetValueStr(line, "PermittedTowerPlacementTexturePath");
 
-                if (groundTexturePath != "") GroundTexturePath = $"{Directory.GetParent(path)}\\{groundTexturePath}";
-                if (permittedTowerPlacementTexturePath != "") PermittedTowerPlacementTexturePath = $"{Directory.GetParent(path)}\\{permittedTowerPlacementTexturePath}";
-            }
+        //        if (groundTexturePath != "") GroundTexturePath = $"{Directory.GetParent(path)}\\{groundTexturePath}";
+        //        if (permittedTowerPlacementTexturePath != "") PermittedTowerPlacementTexturePath = $"{Directory.GetParent(path)}\\{permittedTowerPlacementTexturePath}";
+        //    }
 
-            return (GroundTexturePath, PermittedTowerPlacementTexturePath);
-        }
+        //    return (GroundTexturePath, PermittedTowerPlacementTexturePath);
+        //}
     }
 }

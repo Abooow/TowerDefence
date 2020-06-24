@@ -57,7 +57,7 @@
     <Compile Include="Helpers\Line.cs" />
     <Compile Include="Helpers\MapFileLoader.cs" />
     <Compile Include="Helpers\TowerPlacer.cs" />
-    <Compile Include="Helpers\WorldDivider.cs" />
+    <Compile Include="Helpers\SpacePartitioner.cs" />
     <Compile Include="Managers\BulletManager.cs" />
     <Compile Include="Managers\ButtonManager.cs" />
     <Compile Include="Managers\EnemyManager.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="Moldels\IPositionable.cs" />
     <Compile Include="Moldels\Map.cs" />
     <Compile Include="Moldels\MapData.cs" />
+    <Compile Include="Moldels\SpaceUnit.cs" />
     <Compile Include="Moldels\Sprite.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,9 +100,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -155,7 +153,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="app.manifest" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
