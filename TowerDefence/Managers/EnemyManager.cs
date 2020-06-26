@@ -18,25 +18,22 @@ namespace TowerDefence.Managers
 
         public bool Enabled { get; set; }
         public bool DebugWorldDivider { get; set; }
-        public List<Enemy> Enemies { get; }
 
         public EnemyEvent OnEnemyReachedLastPoint;
 
-        private SpacePartitioner<Enemy> spacePartitioner;
+        private SpacePartitioner spacePartitioner;
 
         private SpriteFont font;
         private float layerDepth;
 
         public EnemyManager()
         {
-            Enemies = new List<Enemy>();
-
-            float gridWidth = 165;
+            float gridWidth = 140;
             Point mapSize = MapManager.LoadedMap.GroundTexture.Bounds.Size;
             Point totalGrids = new Point((int)Math.Ceiling(mapSize.X / gridWidth), (int)Math.Ceiling(mapSize.Y / gridWidth));
             Point gridSize = new Point((int)Math.Ceiling(mapSize.X / (float)totalGrids.X), (int)Math.Ceiling(mapSize.Y / (float)totalGrids.Y));
 
-            spacePartitioner = new SpacePartitioner<Enemy>(totalGrids, gridSize);
+            spacePartitioner = new SpacePartitioner(totalGrids, gridSize);
 
             font = AssetManager.GetFont("BaseFont");
             layerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Ui);
@@ -47,57 +44,77 @@ namespace TowerDefence.Managers
 
         public void Spawn(Enemy enemy)
         {
-            if (enemy != null && !Enemies.Contains(enemy))
+            if (enemy != null)
             {
+                enemy.World = spacePartitioner;
                 enemy.AiController.InitializePosition();
-                Enemies.Add(enemy);
-                spacePartitioner.AddPoint(enemy);
+                enemy.AddToWorld();
             }
         }
 
         public void Remove(Enemy enemy)
         {
-            if (enemy != null && Enemies.Contains(enemy))
+            if (enemy != null)
             {
-                Enemies.Remove(enemy);
-                spacePartitioner.RemovePoint(enemy);
+                enemy.RemoveFromWorld();
             }
         }
 
         public void Update(float deltaTime)
         {
-            for (int i = Enemies.Count - 1; i >= 0; i--)
+            void UpdateUnit(SpaceUnit unit)
             {
-                Enemy enemy = Enemies[i];
-                if (enemy.Update(deltaTime))
-                {
-                    Enemies.Remove(enemy);
-                    spacePartitioner.RemovePoint(enemy);
-                    continue;
-                }
-                if (enemy.HaveReachedLastWayPoint) OnEnemyReachedLastPoint?.Invoke(enemy);
+                Enemy enemy = unit as Enemy;
+                if (enemy.Update(deltaTime)) enemy.RemoveFromWorld();
+                if (enemy.HaveReachedLastWayPoint)
+                    OnEnemyReachedLastPoint?.Invoke(enemy);
             }
-            spacePartitioner.Update();
+
+            // Update units in cells.
+            for (int y = 0; y < spacePartitioner.TotalCells.Y; y++)
+            {
+                for (int x = 0; x < spacePartitioner.TotalCells.X; x++)
+                {
+                    for (int i = spacePartitioner.Cells[y][x].Count - 1; i >= 0; i--)
+                    {
+                        UpdateUnit(spacePartitioner.Cells[y][x].ElementAt(i));
+                    }
+                }
+            }
+            // Update OutOfBoundsUnits.
+            for (int i = spacePartitioner.OutOfBoundsUnits.Count - 1; i >= 0; i--)
+            {
+                UpdateUnit(spacePartitioner.OutOfBoundsUnits.ElementAt(i));
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Enemy enemy in Enemies)
+            // Draw units in cells.
+            for (int y = 0; y < spacePartitioner.TotalCells.Y; y++)
+            {
+                for (int x = 0; x < spacePartitioner.TotalCells.X; x++)
+                {
+                    foreach (Enemy enemy in spacePartitioner.Cells[y][x]) enemy.Draw(spriteBatch);
+                }
+            }
+            // Draw OutOfBoundsUnits.
+            foreach (Enemy enemy in spacePartitioner.OutOfBoundsUnits)
             {
                 enemy.Draw(spriteBatch);
             }
 
             if (DebugWorldDivider)
             {
-                for (int y = 0; y < spacePartitioner.TotalGrids.Y; y++)
+                for (int y = 0; y < spacePartitioner.TotalCells.Y; y++)
                 {
-                    for (int x = 0; x < spacePartitioner.TotalGrids.X; x++)
+                    for (int x = 0; x < spacePartitioner.TotalCells.X; x++)
                     {
-                        int totalEnemies = spacePartitioner.Grids[y][x].Count;
+                        int totalEnemies = spacePartitioner.Cells[y][x].Count;
 
                         spriteBatch.Draw(
                             AssetManager.GetTexture("Pixel"),
-                            new Rectangle(new Point(x, y) * spacePartitioner.GridSize, spacePartitioner.GridSize),
+                            new Rectangle(new Point(x, y) * spacePartitioner.CellSize, spacePartitioner.CellSize),
                             null,
                             Color.Red * (totalEnemies / 100f),
                             0f,
@@ -109,7 +126,7 @@ namespace TowerDefence.Managers
                         spriteBatch.DrawString(
                             font,
                             totalEnemies.ToString(),
-                            (new Point(x, y) * spacePartitioner.GridSize).ToVector2() + spacePartitioner.GridSize.ToVector2() * 0.5f,
+                            (new Point(x, y) * spacePartitioner.CellSize).ToVector2() + spacePartitioner.CellSize.ToVector2() * 0.5f,
                             Color.Black * 0.8f,
                             0f,
                             font.MeasureString(totalEnemies.ToString()) * new Vector2(0.5f),
@@ -121,14 +138,15 @@ namespace TowerDefence.Managers
             }
         }
 
-        public List<SpacePartitioner<Enemy>.PointData> Query(Vector2 point)
+
+        public ICollection<SpaceUnit> Query(Vector2 point)
         {
             return spacePartitioner.Query(point);
         }
 
-        public List<List<SpacePartitioner<Enemy>.PointData>> Query(Vector2 position, float radius)
+        public void Query(Vector2 position, float radius, Action<IEnumerable<SpaceUnit>> actionOnFoundUnits)
         {
-            return spacePartitioner.Query(position, radius);
+            spacePartitioner.Query(position, radius, actionOnFoundUnits);
         }
     }
 }

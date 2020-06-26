@@ -31,7 +31,7 @@ namespace TowerDefence.Moldels
             LayerDepth = layerDepth;
         }
 
-        public bool Update(float deltaTime, List<SpacePartitioner<Enemy>.PointData> nearbyEnemies)
+        public bool Update(float deltaTime, ICollection<SpaceUnit> nearbyEnemies)
         {
             // Move.
             float distance = Speed * deltaTime;
@@ -44,11 +44,11 @@ namespace TowerDefence.Moldels
             rotation = (float)Math.Atan2(Direction.Y, Direction.X);
 
             // Check for collisions.
-            foreach (var enemyPoint in nearbyEnemies)
+            foreach (Enemy enemyPoint in nearbyEnemies)
             {
-                if (Circle.Contains(enemyPoint.Point.Position, enemyPoint.Point.HitboxRadius, Position))
+                if (Circle.Contains(enemyPoint.Position, enemyPoint.HitboxRadius, Position))
                 {
-                    enemyPoint.Point.TakeDamage(Damage);
+                    enemyPoint.TakeDamage(Damage);
                     return true;
                 }
             }

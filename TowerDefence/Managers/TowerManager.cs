@@ -85,7 +85,11 @@ namespace TowerDefence.Managers
         {
             foreach (Tower tower in Towers)
             {
-                tower.Update(deltaTime, enemyManager.Query(tower.Position, tower.RangeRadius + EnemyFactory.LargestEnemyHitboxRadius));
+                tower.SearchAlgorithm.FoundEnemy = null;
+                tower.SearchAlgorithm.Tower = tower;
+                enemyManager.Query(tower.Position, tower.RangeRadius + EnemyFactory.LargestEnemyHitboxRadius, tower.SearchAlgorithm.FindEnemies);
+                tower.Update(deltaTime);
+                tower.SearchAlgorithm.Tower = null;
             }
         }
 

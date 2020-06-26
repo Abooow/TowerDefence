@@ -55,7 +55,7 @@ namespace TowerDefence.Towers
             extraDepth += 0.0000001f;
         }
 
-        public virtual void Update(float deltaTime, List<List<SpacePartitioner<Enemy>.PointData>> nearbyEnemies)
+        public virtual void Update(float deltaTime)
         {
         }
 

@@ -12,7 +12,6 @@ namespace TowerDefence.Moldels
 {
     public class Enemy : SpaceUnit
     {
-        public Vector2 Position { get; set; }
         public Sprite Sprite { get; set; }
         public float HitboxRadius { get; set; }
         public float Scale { get; set; }
@@ -25,8 +24,8 @@ namespace TowerDefence.Moldels
         public EnemyAiController AiController { get; }
         public bool HaveReachedLastWayPoint { get; private set; }
 
-        public Enemy(SpacePartitioner spacePartitioner, Sprite sprite, float hitboxRadius, float scale, float speed, float health, float armor, float damage, float layerDepth)
-            : base(spacePartitioner)
+        public Enemy(SpacePartitioner world, Sprite sprite, float hitboxRadius, float scale, float speed, float health, float armor, float damage, float layerDepth)
+            : base(world)
         {
             Sprite = sprite;
             HitboxRadius = hitboxRadius;

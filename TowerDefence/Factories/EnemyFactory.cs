@@ -31,7 +31,7 @@ namespace TowerDefence.Factories
 
             if (Enemies.ContainsKey(name)) enemyToCopy = Enemies[name];
 
-            return enemyToCopy == null ? null : new Enemy(enemyToCopy.Sprite, enemyToCopy.HitboxRadius, enemyToCopy.Scale, enemyToCopy.Speed, enemyToCopy.Health, enemyToCopy.Armor, enemyToCopy.Damage, enemyToCopy.LayerDepth);
+            return enemyToCopy == null ? null : new Enemy(null, enemyToCopy.Sprite, enemyToCopy.HitboxRadius, enemyToCopy.Scale, enemyToCopy.Speed, enemyToCopy.Health, enemyToCopy.Armor, enemyToCopy.Damage, enemyToCopy.LayerDepth);
         }
     }
 }

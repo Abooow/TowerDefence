@@ -58,10 +58,10 @@ namespace TowerDefence.Screens
             
             // Create Enemy prefabs.
             float enemyLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Enemies);
-            EnemyFactory.Add("Enemy1", new Enemy(AssetManager.GetSprite("Enemy1"), hitboxRadius: 15f, scale: 1f, speed: 280f, health: 100f, armor: 10f, damage: 5f, enemyLayerDepth + 0.000f));
-            EnemyFactory.Add("Enemy2", new Enemy(AssetManager.GetSprite("Enemy2"), 15f, 1.1f, 450f, 300f, 20f, 10f, enemyLayerDepth + 0.001f));
-            EnemyFactory.Add("Enemy3", new Enemy(AssetManager.GetSprite("Enemy3"), 20f, 1.5f, 280f, 1500f, 130f, 24f, enemyLayerDepth + 0.002f));
-            EnemyFactory.Add("Enemy4", new Enemy(AssetManager.GetSprite("Enemy4"), 30f, 3f, 100f, 1500f, 110f, 50f, enemyLayerDepth + 0.003f));
+            EnemyFactory.Add("Enemy1", new Enemy(null, AssetManager.GetSprite("Enemy1"), hitboxRadius: 15f, scale: 1f, speed: 280f, health: 100f, armor: 10f, damage: 5f, enemyLayerDepth + 0.000f));
+            EnemyFactory.Add("Enemy2", new Enemy(null, AssetManager.GetSprite("Enemy2"), 15f, 1.1f, 450f, 300f, 20f, 10f, enemyLayerDepth + 0.001f));
+            EnemyFactory.Add("Enemy3", new Enemy(null, AssetManager.GetSprite("Enemy3"), 20f, 1.5f, 280f, 1500f, 130f, 24f, enemyLayerDepth + 0.002f));
+            EnemyFactory.Add("Enemy4", new Enemy(null, AssetManager.GetSprite("Enemy4"), 30f, 3f, 100f, 1500f, 110f, 50f, enemyLayerDepth + 0.003f));
 
             // Create Bullet prefabs.
             float bulletLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Bullets);

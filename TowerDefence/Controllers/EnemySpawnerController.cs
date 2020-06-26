@@ -27,6 +27,7 @@ namespace TowerDefence.Controllers
             Enabled = true;
         }
 
+        int tot;
         public void Update(float deltaTime)
         {
             timer -= deltaTime;
@@ -34,6 +35,7 @@ namespace TowerDefence.Controllers
             {
                 enemyManager.Spawn(EnemyFactory.GetEnemy($"Enemy3"));
                 timer = maxTimer;
+                tot++;
             }
         }
     }

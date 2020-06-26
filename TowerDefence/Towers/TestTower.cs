@@ -28,17 +28,15 @@ namespace TowerDefence.Towers
             SearchAlgorithm = new FirstEnemySearch();
         }
 
-        public override void Update(float deltaTime, List<List<SpacePartitioner<Enemy>.PointData>> nearbyEnemies)
+        public override void Update(float deltaTime)
         {
             if (SearchAlgorithm != null)
             {
-                Enemy foundEnemy = SearchAlgorithm.FindEnemy(this, nearbyEnemies);
-
                 timer -= deltaTime;
-                if (foundEnemy != null)
+                if (SearchAlgorithm.FoundEnemy != null)
                 {
                     // Rotate.
-                    Vector2 delta = CalculateAimPoint(foundEnemy) - Position;
+                    Vector2 delta = CalculateAimPoint(SearchAlgorithm.FoundEnemy) - Position;
                     Rotation = (float)Math.Atan2(delta.Y, delta.X);
 
                     // Shoot.

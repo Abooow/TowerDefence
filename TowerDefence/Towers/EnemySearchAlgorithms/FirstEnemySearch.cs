@@ -10,30 +10,26 @@ namespace TowerDefence.Towers.EnemySearchAlgorithms
 {
     public class FirstEnemySearch : ISearchAlgorithm
     {
-        public Enemy FindEnemy(Tower tower, List<List<SpacePartitioner<Enemy>.PointData>> nearbyEnemies)
-        {
-            int lastWayPoint = 0;
-            //float shortestDistanceToWayPoint = float.PositiveInfinity;
-            Enemy foundEnemy = null;
+        public Tower Tower { get; set; }
+        public Enemy FoundEnemy { get; set; }
 
-            foreach (var enemyList in nearbyEnemies)
+        public void FindEnemies(IEnumerable<SpaceUnit> foundUnits)
+        {
+            int lastWayPoint = FoundEnemy?.AiController.WayPointIndex ?? 0;
+            //float shortestDistanceToWayPoint = float.PositiveInfinity;
+
+            foreach (Enemy enemy in foundUnits)
             {
-                foreach (var enemyPoint in enemyList)
+                if (Circle.Intercects(Tower.Position, Tower.RangeRadius, enemy.Position, enemy.HitboxRadius))
                 {
-                    Enemy enemy = enemyPoint.Point;
-                    if (Circle.Intercects(tower.Position, tower.RangeRadius, enemy.Position, enemy.HitboxRadius))
+                    if (enemy.AiController.WayPointIndex > lastWayPoint)
                     {
-                        if (enemy.AiController.WayPointIndex > lastWayPoint)
-                        {
-                            lastWayPoint = enemy.AiController.WayPointIndex;
-                            //shortestDistanceToWayPoint = enemy.AiController.DistanceToNextWayPoint;
-                            foundEnemy = enemy;
-                        }
+                        lastWayPoint = enemy.AiController.WayPointIndex;
+                        //shortestDistanceToWayPoint = enemy.AiController.DistanceToNextWayPoint;
+                        FoundEnemy = enemy;
                     }
                 }
             }
-
-            return foundEnemy;
         }
     }
 }

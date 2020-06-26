@@ -59,12 +59,14 @@ namespace TowerDefence.Screens
             };
         }
 
+        KeyboardState s;
         public override void Update(float deltaTime)
         {
             towerManager.Update(deltaTime);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && s.IsKeyUp(Keys.Enter))
                 spawnerController.Enabled = !spawnerController.Enabled;
+            s = Keyboard.GetState();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
@@ -105,7 +107,7 @@ namespace TowerDefence.Screens
 
         private void OnEnemyReachedGoal(Enemy enemy)
         {
-            enemyManager.Remove(enemy);
+            enemy.RemoveFromWorld();
         }
     }
 }

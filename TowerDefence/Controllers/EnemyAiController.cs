@@ -37,14 +37,14 @@ namespace TowerDefence.Controllers
             // Move.
             Vector2 direction = nextWayPoint - attachedEnemy.Position;
             direction.Normalize();
-            attachedEnemy.Move(attachedEnemy.Position + direction * attachedEnemy.Speed * deltaTime);
+            attachedEnemy.Move(attachedEnemy.Position + direction * (attachedEnemy.Speed * deltaTime));
             if (IsCloseTo(nextWayPoint, attachedEnemy.Speed * deltaTime)) nextWayPoint = GetWayPoint(++WayPointIndex);
 
             // Rotate.
             Vector2 delta = nextWayPoint - attachedEnemy.Position;
             attachedEnemy.Rotation = (float)Math.Atan2(delta.Y, delta.X);
 
-            HaveReachedLastWayPoint = WayPointIndex == MapManager.LoadedMap.EnemyPath.Length;
+            HaveReachedLastWayPoint = WayPointIndex >= MapManager.LoadedMap.EnemyPath.Length;
         }
 
         public bool HaveReachedLast() =>  MapManager.LoadedMap.EnemyPath.Length > 0 && IsCloseTo(MapManager.LoadedMap.EnemyPath.Last(), attachedEnemy.Speed);
