@@ -12,6 +12,7 @@ namespace TowerDefence.Controllers
 {
     public class TestTowerPlacerScript : IController
     {
+        public HashSet<int> ControllerGroupId { get; }
         public bool Enabled { get; set; }
 
         public TestTowerPlacerScript(TowerPlacer towerPlacer, BulletManager bulletManager)
@@ -27,6 +28,8 @@ namespace TowerDefence.Controllers
                     towerPlacer.PlaceTower();
                 }
             }
+
+            ControllerGroupId = new HashSet<int>();
         }
 
         public void Update(float deltaTime)

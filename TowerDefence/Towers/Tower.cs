@@ -13,7 +13,7 @@ namespace TowerDefence.Towers
     {
         internal static float extraDepth;
 
-        public BulletManager BulletManager { get; }
+        public BulletManager BulletManager { get; set; }
         public Vector2 Position { get; set; }
         public float BaseRadius { get; set; }
         public float RangeRadius { get; private set; }

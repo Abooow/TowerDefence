@@ -20,14 +20,14 @@ namespace TowerDefence.Towers.EnemySearchAlgorithms
 
             foreach (Enemy enemy in foundUnits)
             {
-                if (Circle.Intercects(Tower.Position, Tower.RangeRadius, enemy.Position, enemy.HitboxRadius))
+                if (enemy.AiController.WayPointIndex > lastWayPoint &&
+                    Circle.Intercects(Tower.Position, Tower.RangeRadius, enemy.Position, enemy.HitboxRadius))
                 {
-                    if (enemy.AiController.WayPointIndex > lastWayPoint)
-                    {
+                    
                         lastWayPoint = enemy.AiController.WayPointIndex;
                         //shortestDistanceToWayPoint = enemy.AiController.DistanceToNextWayPoint;
                         FoundEnemy = enemy;
-                    }
+                    
                 }
             }
         }

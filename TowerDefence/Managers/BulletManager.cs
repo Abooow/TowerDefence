@@ -13,6 +13,8 @@ namespace TowerDefence.Managers
 {
     public class BulletManager : IController, IView
     {
+        public HashSet<int> ControllerGroupId { get; }
+        public HashSet<int> ViewGroupId { get; }
         public bool Enabled { get; set; }
 
         private List<Bullet> bullets;
@@ -21,9 +23,10 @@ namespace TowerDefence.Managers
         public BulletManager(EnemyManager enemyManager)
         {
             this.enemyManager = enemyManager;
-
             bullets = new List<Bullet>();
 
+            ControllerGroupId = new HashSet<int>();
+            ViewGroupId = new HashSet<int>();
             Enabled = true;
         }
 

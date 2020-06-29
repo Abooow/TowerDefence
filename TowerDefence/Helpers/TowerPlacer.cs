@@ -1,12 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TowerDefence.Managers;
 using TowerDefence.Towers;
+using TowerDefence.Views;
+using TowerDefence.Views.UI;
 
 namespace TowerDefence.Helpers
 {
-    public class TowerPlacer
+    public class TowerPlacer : IView
     {
+        public HashSet<int> ViewGroupId { get; }
+        public bool Enabled { get; set; }
         public Tower TargetTower { get; set; }
 
         public bool HaveTargetTower => TargetTower != null;
@@ -18,6 +23,9 @@ namespace TowerDefence.Helpers
         public TowerPlacer(TowerManager towerManager)
         {
             this.towerManager = towerManager;
+        
+            ViewGroupId = new HashSet<int>();
+            Enabled = true;
         }
 
         public bool MoveTower(Vector2 position)
@@ -25,7 +33,9 @@ namespace TowerDefence.Helpers
             this.position = position;
             TargetTower.Position = position;
 
-            return canPlace = !towerManager.OverlapsAnyTowers(TargetTower) && towerManager.CanPlaceOnMap(TargetTower, MapManager.LoadedMap);
+            return canPlace = !towerManager.OverlapsAnyTowers(TargetTower) 
+                              && towerManager.CanPlaceOnMap(TargetTower, MapManager.LoadedMap) 
+                              && !MouseOverlapsUI.IsMouseOverUI();
         }
 
         public void PlaceTower()
@@ -56,10 +66,7 @@ namespace TowerDefence.Helpers
                     TargetTower.BaseLayerDepth - 0.001f);
 
                 // Tower texture.
-                if (TargetTower.TopTexture != null)
-                {
-                    TargetTower.Draw(spriteBatch, canPlace ? Color.White : Color.LightSalmon);
-                }
+                if (TargetTower.TopTexture != null) TargetTower.Draw(spriteBatch, canPlace ? Color.White : Color.LightSalmon);
 
                 // Tower base area.
                 spriteBatch.Draw(TargetTower.BaseRangeTexture, 

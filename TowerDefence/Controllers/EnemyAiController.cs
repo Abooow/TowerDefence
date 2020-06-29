@@ -11,6 +11,7 @@ namespace TowerDefence.Controllers
 {
     public class EnemyAiController : IController
     {
+        public HashSet<int> ControllerGroupId { get; }
         public bool Enabled { get; set; }
         public bool HaveReachedLastWayPoint { get; private set; }
         public int WayPointIndex { get; private set; }
@@ -23,6 +24,7 @@ namespace TowerDefence.Controllers
         {
             attachedEnemy = enemy;
 
+            ControllerGroupId = new HashSet<int>();
             Enabled = true;
         }
 

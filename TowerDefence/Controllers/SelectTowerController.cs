@@ -14,6 +14,7 @@ namespace TowerDefence.Controllers
 {
     public class SelectTowerController : IController
     {
+        public HashSet<int> ControllerGroupId { get; }
         public bool Enabled { get; set; }
         public Tower SelectedTower { get; set; }
 
@@ -23,15 +24,17 @@ namespace TowerDefence.Controllers
 
         public SelectTowerController(TowerManager towerManager, TowerPlacer towerPlacer, Camera camera)
         {
-            Enabled = true;
             this.towerManager = towerManager;
             this.towerPlacer = towerPlacer;
             this.camera = camera;
+
+            ControllerGroupId = new HashSet<int>();
+            Enabled = true;
         }
 
         public void Update(float deltaTime)
         {
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            if (!MouseOverlapsUI.IsMouseOverUI() && Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 if (towerPlacer.TargetTower != null)
                     towerPlacer.PlaceTower();

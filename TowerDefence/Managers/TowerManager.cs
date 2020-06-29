@@ -13,20 +13,23 @@ namespace TowerDefence.Managers
 {
     public class TowerManager : IController, IView
     {
+        public HashSet<int> ControllerGroupId { get; }
+        public HashSet<int> ViewGroupId { get; }
         public bool Enabled { get; set; }
-
         public List<Tower> Towers { get; }
 
         private EnemyManager enemyManager;
-        private SelectTowerController selectTowerController;
+        //private SelectTowerController selectTowerController;
 
         public TowerManager(EnemyManager enemyManager/*, SelectTowerController selectTowerController*/)
         {
             this.enemyManager = enemyManager;
-            this.selectTowerController = selectTowerController;
+            //this.selectTowerController = selectTowerController;
 
             Towers = new List<Tower>();
 
+            ControllerGroupId = new HashSet<int>();
+            ViewGroupId = new HashSet<int>();
             Enabled = true;
         }
 

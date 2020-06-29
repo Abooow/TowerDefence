@@ -16,6 +16,8 @@ namespace TowerDefence.Managers
     {
         public delegate void EnemyEvent(Enemy enemy);
 
+        public HashSet<int> ControllerGroupId { get; }
+        public HashSet<int> ViewGroupId { get; }
         public bool Enabled { get; set; }
         public bool DebugWorldDivider { get; set; }
 
@@ -39,6 +41,8 @@ namespace TowerDefence.Managers
             layerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Ui);
 
             DebugWorldDivider = true;
+            ControllerGroupId = new HashSet<int>();
+            ViewGroupId = new HashSet<int>();
             Enabled = true;
         }
 

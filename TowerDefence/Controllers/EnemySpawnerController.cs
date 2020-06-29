@@ -11,10 +11,10 @@ namespace TowerDefence.Controllers
 {
     public class EnemySpawnerController : IController
     {
+        public HashSet<int> ControllerGroupId { get; }
         public bool Enabled { get; set; }
 
         private EnemyManager enemyManager;
-
         private float maxTimer = 0.0f;
         private float timer;
         private Random random;
@@ -24,6 +24,7 @@ namespace TowerDefence.Controllers
             this.enemyManager = enemyManager;
             random = new Random();
 
+            ControllerGroupId = new HashSet<int>();
             Enabled = true;
         }
 

@@ -10,7 +10,7 @@ namespace TowerDefence.Moldels
 {
     public abstract class SpaceUnit
     {
-        private static int currentHash = 0;
+        private static int currentHash = int.MinValue;
 
         public Vector2 Position { get; set; }
         public Point CellPosition { get; private set; }

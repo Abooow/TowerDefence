@@ -50,12 +50,17 @@
     <Compile Include="Controllers\SelectMapController.cs" />
     <Compile Include="Controllers\SelectTowerController.cs" />
     <Compile Include="Controllers\TestTowerPlacerScript.cs" />
+    <Compile Include="Controllers\TowerSelectorController.cs" />
     <Compile Include="Factories\BulletFactory.cs" />
     <Compile Include="Factories\EnemyFactory.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Groups\ControllerId.cs" />
+    <Compile Include="Groups\ViewId.cs" />
     <Compile Include="Helpers\Circle.cs" />
+    <Compile Include="Helpers\CollectionExtensions.cs" />
     <Compile Include="Helpers\Line.cs" />
     <Compile Include="Helpers\MapFileLoader.cs" />
+    <Compile Include="Helpers\MouseOverlapsUI.cs" />
     <Compile Include="Helpers\TowerPlacer.cs" />
     <Compile Include="Helpers\SpacePartitioner.cs" />
     <Compile Include="Managers\BulletManager.cs" />
@@ -92,7 +97,8 @@
     <Compile Include="Views\IView.cs" />
     <Compile Include="Views\MapView.cs" />
     <Compile Include="Views\SelectedTowerView.cs" />
-    <Compile Include="Views\WorldDividerView.cs" />
+    <Compile Include="Views\UI\AvailableTowersUiView.cs" />
+    <Compile Include="Views\UI\IUiView.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

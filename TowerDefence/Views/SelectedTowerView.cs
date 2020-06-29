@@ -11,6 +11,7 @@ namespace TowerDefence.Views
 {
     public class SelectedTowerView : IView
     {
+        public HashSet<int> ViewGroupId { get; }
         public bool Enabled { get; set; }
 
         private SelectTowerController selectTowerController;
@@ -18,6 +19,8 @@ namespace TowerDefence.Views
         public SelectedTowerView(SelectTowerController selectTowerController)
         {
             this.selectTowerController = selectTowerController;
+
+            ViewGroupId = new HashSet<int>();
             Enabled = true;
         }
 

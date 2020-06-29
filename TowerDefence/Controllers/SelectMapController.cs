@@ -13,6 +13,7 @@ namespace TowerDefence.Controllers
 {
     public class SelectMapController : IController
     {
+        public HashSet<int> ControllerGroupId { get; }
         public bool Enabled { get; set; }
 
         private AvailableMapsView mapsView;
@@ -37,6 +38,7 @@ namespace TowerDefence.Controllers
             }
             buttonManager.AddButtons(buttons);
 
+            ControllerGroupId = new HashSet<int>();
             Enabled = true;
         }
 

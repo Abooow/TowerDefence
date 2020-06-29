@@ -12,10 +12,10 @@ namespace TowerDefence.Controllers
 {
     public class AvailableMapsScrollController : IController
     {
+        public HashSet<int> ControllerGroupId { get; }
         public bool Enabled { get; set; }
 
         private AvailableMapsView mapsView;
-
         private MouseState lastMouse;
 
         public AvailableMapsScrollController(AvailableMapsView mapsView)
@@ -24,6 +24,7 @@ namespace TowerDefence.Controllers
 
             lastMouse = Mouse.GetState();
 
+            ControllerGroupId = new HashSet<int>();
             Enabled = true;
         }
 

@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Threading.Tasks;
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TowerDefence.Controllers;
@@ -7,6 +10,7 @@ using TowerDefence.Managers;
 using TowerDefence.Moldels;
 using TowerDefence.Towers;
 using TowerDefence.Views;
+using TowerDefence.Views.UI;
 
 namespace TowerDefence.Screens
 {
@@ -22,9 +26,9 @@ namespace TowerDefence.Screens
 
         public TestScreen()
         {
-            camera = new Camera(new Vector2(800, 480))
+            camera = new Camera(new Vector2(0, 0))
             {
-                Scale = new Vector2(0.5f)
+                Scale = new Vector2(0.8f)
             };
 
             enemyManager = new EnemyManager();
@@ -32,6 +36,7 @@ namespace TowerDefence.Screens
             bulletManager = new BulletManager(enemyManager);
             towerPlacer = new TowerPlacer(towerManager);
             selectTowerController = new SelectTowerController(towerManager, towerPlacer, camera);
+            TowerSelectorController towerSelector;
 
             enemyManager.OnEnemyReachedLastPoint += OnEnemyReachedGoal;
 
@@ -42,7 +47,8 @@ namespace TowerDefence.Screens
             controllers.Add(enemyManager);
             controllers.Add(towerManager);
             controllers.Add(bulletManager);
-            controllers.Add(new TestTowerPlacerScript(towerPlacer, bulletManager)); // TEST!
+            controllers.Add(towerSelector = new TowerSelectorController(camera, towerPlacer, bulletManager));
+            //controllers.Add(new TestTowerPlacerScript(towerPlacer, bulletManager)); // TEST!
 
             // Views.
             views.Add(new SelectedTowerView(selectTowerController));
@@ -50,57 +56,45 @@ namespace TowerDefence.Screens
             views.Add(enemyManager);
             views.Add(towerManager);
             views.Add(bulletManager);
-                spawnerController.Enabled = false;
 
-            a = new SamplerState()
-            {
-                FilterMode = TextureFilterMode.Default,
-                Filter = TextureFilter.Point,
-            };
+            AvailableTowersUiView availableTowersUi = new AvailableTowersUiView(new ButtonManager(), towerSelector, new Rectangle(700, 0, 300, 550));
+            MouseOverlapsUI.AvailableTowersUi = availableTowersUi;
+            
+            // UI.
+            uiViews.Add(availableTowersUi);
+
+            spawnerController.Enabled = false;
+        }
+
+        async void Collect()
+        {
+            Console.WriteLine($"Total memory before {GC.GetTotalMemory(false)}");
+            await Task.Delay(5000);
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+            Console.WriteLine($"Total memory after  {GC.GetTotalMemory(true)}");
         }
 
         KeyboardState s;
         public override void Update(float deltaTime)
         {
-            towerManager.Update(deltaTime);
-
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) && s.IsKeyUp(Keys.Enter))
+            {
                 spawnerController.Enabled = !spawnerController.Enabled;
+                if (!spawnerController.Enabled)
+                {
+                    Task.Run(Collect);
+                }
+            }
             s = Keyboard.GetState();
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                selectTowerController.SelectedTower = null;
-                towerPlacer.TargetTower = new TestTower(bulletManager);
-            }
-
-            if (towerPlacer.HaveTargetTower) towerPlacer.MoveTower(camera.ScreenToWorldPoint(Mouse.GetState().Position.ToVector2()));
-
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-            {
-                if (towerPlacer.TargetTower != null)
-                    towerPlacer.PlaceTower();
-            }
-            else if (Mouse.GetState().RightButton == ButtonState.Pressed)
-            {
-                if (towerPlacer.TargetTower != null) towerPlacer.TargetTower = null;
-            }
 
             base.Update(deltaTime);
         }
 
-        SamplerState a;
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, camera.GetTranslationMatrix());
-
-            // Draw tower to place.
-            towerPlacer.Draw(spriteBatch);
-
-            foreach (IView view in views)
-                if (view.Enabled) view.Draw(spriteBatch);
-
-            spriteBatch.End();
+            DrawViews(spriteBatch, SamplerState.PointClamp, camera.GetTranslationMatrix(), towerPlacer);
+            DrawUiViews(spriteBatch, SamplerState.PointClamp);
 
             base.Draw(spriteBatch);
         }

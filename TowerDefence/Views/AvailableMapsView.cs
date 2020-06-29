@@ -11,6 +11,7 @@ namespace TowerDefence.Views
 {
     public class AvailableMapsView : IView
     {
+        public HashSet<int> ViewGroupId { get; }
         public bool Enabled { get; set; }
 
         public float XOffset { get; set; }
@@ -35,6 +36,7 @@ namespace TowerDefence.Views
             MinScrollValue = (int)XOffset;
             MaxScrollValue = ((MapManager.TotalLoadedMaps / 7) * 6) / 2 * -(ThumbnailSize.X + Margin.X) + MinScrollValue;
 
+            ViewGroupId = new HashSet<int>();
             Enabled = true;
         }
 

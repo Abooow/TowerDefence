@@ -12,6 +12,8 @@ namespace TowerDefence.Moldels
 {
     public class Button
     {
+        private static int currentHash = int.MinValue;
+
         public EventHandler OnClicked;
 
         public bool Enabled { get; set; }
@@ -24,12 +26,16 @@ namespace TowerDefence.Moldels
         public object AttachedObject { get; set; }
         public float LayerDepth { get; set; }
 
+        private int hash;
+
         public Rectangle Bounds => new Rectangle(Position.ToPoint(), Size.ToPoint());
 
         public Button(Vector2 position, Vector2 size)
         {
             Position = position;
             Size = size;
+
+            hash = currentHash++;
 
             Visible = true;
             Enabled = true;
@@ -48,7 +54,7 @@ namespace TowerDefence.Moldels
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (Enabled && Visible)
             {
@@ -62,6 +68,11 @@ namespace TowerDefence.Moldels
                     SpriteEffects.None,
                     LayerDepth);
             }
+        }
+
+        public sealed override int GetHashCode()
+        {
+            return hash;
         }
     }
 }

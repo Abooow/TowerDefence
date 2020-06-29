@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TowerDefence.Controllers;
 using TowerDefence.Managers;
@@ -18,10 +19,12 @@ namespace TowerDefence.Screens
             AvailableMapsView mapsView = new AvailableMapsView();
             ButtonManager buttonManager = new ButtonManager();
 
+            // Controllers.
             controllers.Add(new AvailableMapsScrollController(mapsView));
             controllers.Add(new SelectMapController(mapsView, buttonManager));
             controllers.Add(buttonManager);
 
+            // Views.
             views.Add(mapsView);
             views.Add(buttonManager);
         }
@@ -33,11 +36,7 @@ namespace TowerDefence.Screens
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
-
-            foreach (IView view in views) if (view.Enabled) view.Draw(spriteBatch);
-
-            spriteBatch.End();
+            DrawViews(spriteBatch, SamplerState.AnisotropicClamp, Matrix.Identity);
 
             base.Draw(spriteBatch);
         }

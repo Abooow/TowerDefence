@@ -73,7 +73,7 @@ namespace TowerDefence.Helpers
             {
                 for (int x = start.X; x < end.X; x++)
                 {
-                    if (Circle.Intercects(position, radius, new Rectangle(new Point(x, y) * CellSize, CellSize)))
+                    //if (Circle.Intercects(position, radius, new Rectangle(new Point(x, y) * CellSize, CellSize)))
                         actionOnFoundUnits.Invoke(Cells[y][x]);
                 }
             }

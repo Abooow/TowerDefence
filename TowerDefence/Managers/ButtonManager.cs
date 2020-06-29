@@ -13,10 +13,11 @@ namespace TowerDefence.Managers
 {
     public class ButtonManager : IController, IView
     {
+        public HashSet<int> ControllerGroupId { get; }
+        public HashSet<int> ViewGroupId { get; }
         public bool Enabled { get; set; }
 
         private List<Button> buttons;
-
         private MouseState lastMouse;
 
         public ButtonManager()
@@ -24,6 +25,8 @@ namespace TowerDefence.Managers
             buttons = new List<Button>();
             lastMouse = Mouse.GetState();
 
+            ControllerGroupId = new HashSet<int>();
+            ViewGroupId = new HashSet<int>();
             Enabled = true;
         }
 

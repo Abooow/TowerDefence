@@ -23,6 +23,7 @@ namespace TowerDefence.Moldels
         public Camera(Vector2 viewSize)
         {
             ViewSize = viewSize;
+            Scale = Vector2.One;
         }
 
         /// <summary>
@@ -46,14 +47,14 @@ namespace TowerDefence.Moldels
         /// Zoom the Camera a given amount towards a given position.
         /// </summary>
         /// <param name="amount">How much to zoom.</param>
-        /// <param name="towards">The position to zoom towards.</param>
-        public void Zoom(float amount, Vector2 towards)
+        /// <param name="towardsScreenPoint">The position to zoom towards in screen space.</param>
+        public void Zoom(float amount, Vector2 towardsScreenPoint)
         {
-            Vector2 newScale = Scale * amount;
-            Vector2 newPos = Position + towards;
+            Vector2 before = ScreenToWorldPoint(towardsScreenPoint);
+            Scale *= amount;
+            Vector2 after = ScreenToWorldPoint(towardsScreenPoint);
 
-            Position -= newPos * (Vector2.One - newScale / Scale);
-            Scale = newScale;
+            Position += before - after;
         }
 
         /// <summary>

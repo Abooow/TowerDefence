@@ -30,8 +30,8 @@ namespace TowerDefence
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            //IsFixedTimeStep = true;
-            //TargetElapsedTime = TimeSpan.FromSeconds(1d / 100d);
+            IsFixedTimeStep = false;
+            TargetElapsedTime = TimeSpan.FromSeconds(1d / 100d);
             graphics.PreferredBackBufferWidth  = 1000;
             graphics.PreferredBackBufferHeight = 550;
 
@@ -85,6 +85,7 @@ namespace TowerDefence
             DateTime now = DateTime.Now;
 
             float elapsed = (float)(now - time).TotalSeconds;
+            time = now;
             if (Keyboard.GetState().IsKeyDown(Keys.F11)) Exit();
 
             fpsCounter.Update(elapsed);
@@ -93,7 +94,6 @@ namespace TowerDefence
             ScreenManager.Update(elapsed * GameSpeed);
 
             base.Update(gameTime);
-            time = now;
         }
 
         /// <summary>

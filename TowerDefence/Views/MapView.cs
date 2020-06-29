@@ -11,14 +11,17 @@ namespace TowerDefence.Views
 {
     public class MapView : IView
     {
+        public HashSet<int> ViewGroupId { get; }
         public bool Enabled { get; set; }
 
         private float layerDepth;
 
         public MapView()
         {
-            Enabled = true;
             layerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Ground);
+            
+            ViewGroupId = new HashSet<int>();
+            Enabled = true;
         }
 
         public void Draw(SpriteBatch spriteBatch)
