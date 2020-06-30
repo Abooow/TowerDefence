@@ -67,6 +67,7 @@
     <Compile Include="Managers\ButtonManager.cs" />
     <Compile Include="Managers\EnemyManager.cs" />
     <Compile Include="Managers\MapManager.cs" />
+    <Compile Include="Managers\ParticleManager.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
     <Compile Include="Managers\TowerManager.cs" />
     <Compile Include="Moldels\Animation.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Moldels\IPositionable.cs" />
     <Compile Include="Moldels\Map.cs" />
     <Compile Include="Moldels\MapData.cs" />
+    <Compile Include="Moldels\Particle.cs" />
     <Compile Include="Moldels\SpaceUnit.cs" />
     <Compile Include="Moldels\Sprite.cs" />
     <Compile Include="Program.cs" />
@@ -160,7 +162,9 @@
     </None>
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Particles\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

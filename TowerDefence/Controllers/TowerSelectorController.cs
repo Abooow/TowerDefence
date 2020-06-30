@@ -19,12 +19,14 @@ namespace TowerDefence.Controllers
         private Camera camera;
         private TowerPlacer towerPlacer;
         private BulletManager bulletManager;
+        private ParticleManager particleManager;
 
-        public TowerSelectorController(Camera camera, TowerPlacer towerPlacer, BulletManager bulletManager)
+        public TowerSelectorController(Camera camera, TowerPlacer towerPlacer, BulletManager bulletManager, ParticleManager particleManager)
         {
             this.camera = camera;
             this.towerPlacer = towerPlacer;
             this.bulletManager = bulletManager;
+            this.particleManager = particleManager;
 
             ControllerGroupId = new HashSet<int>();
             Enabled = true;
@@ -56,7 +58,7 @@ namespace TowerDefence.Controllers
             switch (towerName)
             {
                 case "Tower1":
-                    tower = new TestTower(bulletManager);
+                    tower = new TestTower(bulletManager, particleManager);
                     break;
             }
 

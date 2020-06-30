@@ -20,6 +20,7 @@ namespace TowerDefence.Screens
         private EnemyManager enemyManager;
         private TowerManager towerManager;
         private BulletManager bulletManager;
+        private ParticleManager particleManager;
         private TowerPlacer towerPlacer;
         private SelectTowerController selectTowerController;
         private EnemySpawnerController spawnerController;
@@ -34,6 +35,7 @@ namespace TowerDefence.Screens
             enemyManager = new EnemyManager();
             towerManager = new TowerManager(enemyManager);
             bulletManager = new BulletManager(enemyManager);
+            particleManager = new ParticleManager();
             towerPlacer = new TowerPlacer(towerManager);
             selectTowerController = new SelectTowerController(towerManager, towerPlacer, camera);
             TowerSelectorController towerSelector;
@@ -47,8 +49,9 @@ namespace TowerDefence.Screens
             controllers.Add(enemyManager);
             controllers.Add(towerManager);
             controllers.Add(bulletManager);
-            controllers.Add(towerSelector = new TowerSelectorController(camera, towerPlacer, bulletManager));
-            //controllers.Add(new TestTowerPlacerScript(towerPlacer, bulletManager)); // TEST!
+            controllers.Add(particleManager);
+            controllers.Add(towerSelector = new TowerSelectorController(camera, towerPlacer, bulletManager, particleManager));
+            controllers.Add(new TestTowerPlacerScript(towerPlacer, bulletManager, particleManager)); // TEST!
 
             // Views.
             views.Add(new SelectedTowerView(selectTowerController));
@@ -56,6 +59,7 @@ namespace TowerDefence.Screens
             views.Add(enemyManager);
             views.Add(towerManager);
             views.Add(bulletManager);
+            views.Add(particleManager);
 
             AvailableTowersUiView availableTowersUi = new AvailableTowersUiView(new ButtonManager(), towerSelector, new Rectangle(700, 0, 300, 550));
             MouseOverlapsUI.AvailableTowersUi = availableTowersUi;

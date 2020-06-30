@@ -30,7 +30,7 @@ namespace TowerDefence
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            IsFixedTimeStep = false;
+            IsFixedTimeStep = true;
             TargetElapsedTime = TimeSpan.FromSeconds(1d / 100d);
             graphics.PreferredBackBufferWidth  = 1000;
             graphics.PreferredBackBufferHeight = 550;

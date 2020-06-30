@@ -12,16 +12,21 @@ namespace TowerDefence.Towers
 {
     public class TestTower : Tower
     {
+        private ParticleManager particleManager;
+        private float barrelLength;
         private float shootRate;
         private float timer;
         private Bullet bullet;
 
-        public TestTower(BulletManager bulletManager)
+        public TestTower(BulletManager bulletManager, ParticleManager particleManager)
             : base(bulletManager, AssetManager.GetSprite("TowerBase2"), AssetManager.GetSprite("Tower1"), 26f, 250f)
         {
+            this.particleManager = particleManager;
+
             BaseLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerBase) + extraDepth;
             TopLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerTop) + extraDepth;
 
+            barrelLength = 38f;
             shootRate = 0.2f;
             bullet = BulletFactory.GetBullet("Bullet1");
 
@@ -43,7 +48,10 @@ namespace TowerDefence.Towers
                     if (timer <= 0)
                     {
                         Vector2 direction = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
-                        BulletManager.SpawnBullet(BulletFactory.GetBullet("Bullet1"), Position, direction);
+                        Vector2 bulletPosition = Position + direction * barrelLength;
+                        BulletManager.SpawnBullet(BulletFactory.GetBullet("Bullet1"), bulletPosition, direction);
+                        Particle flash = new Particle(shootRate * 0.3f, AssetManager.GetSprite("Fire1"), bulletPosition, Vector2.One, Rotation, 1f);
+                        particleManager.AddParticle(flash);
                         timer = shootRate;
                     }
                 }

@@ -32,7 +32,7 @@ namespace TowerDefence.Views.UI
             Buttons.Add(new TowerButton(
                 ButtonsOffset + new Vector2(10f, 30f),
                 new Vector2(100f, 80f),
-                new TestTower(null),
+                new TestTower(null, null),
                 new Rectangle(0, 0, 100, 60),
                 200)
             { 

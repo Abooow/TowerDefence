@@ -15,15 +15,15 @@ namespace TowerDefence.Controllers
         public HashSet<int> ControllerGroupId { get; }
         public bool Enabled { get; set; }
 
-        public TestTowerPlacerScript(TowerPlacer towerPlacer, BulletManager bulletManager)
+        public TestTowerPlacerScript(TowerPlacer towerPlacer, BulletManager bulletManager, ParticleManager particleManager)
         {
-            Tower towerInfo = new TestTower(bulletManager);
+            Tower towerInfo = new TestTower(bulletManager, particleManager);
 
             for (int y = 0; y < MapManager.LoadedMap.PermittedTowerPlacementTexture.Height / (towerInfo.BaseRadius * 2); y++)
             {
                 for (int x = 0; x < MapManager.LoadedMap.PermittedTowerPlacementTexture.Width / (towerInfo.BaseRadius * 2); x++)
                 {
-                    towerPlacer.TargetTower = new TestTower(bulletManager);
+                    towerPlacer.TargetTower = new TestTower(bulletManager, particleManager);
                     towerPlacer.MoveTower(new Vector2(x * towerInfo.BaseRadius * 2, y * towerInfo.BaseRadius * 2));
                     towerPlacer.PlaceTower();
                 }
