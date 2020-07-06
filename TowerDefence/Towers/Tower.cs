@@ -24,7 +24,6 @@ namespace TowerDefence.Towers
         public Sprite TopTexture { get; set; }
         public Texture2D RangeTexture { get; internal set; }
         public Texture2D BaseRangeTexture { get; internal set; }
-        public ISearchAlgorithm SearchAlgorithm { get; set; }
 
         private float oldRange;
 
@@ -52,7 +51,7 @@ namespace TowerDefence.Towers
             RangeTexture = rangeTextue;
             BaseRangeTexture = baseRangeTextue;
 
-            extraDepth += 0.0000001f;
+            extraDepth += 0.00000001f;
         }
 
         public virtual void Update(float deltaTime)
@@ -60,5 +59,14 @@ namespace TowerDefence.Towers
         }
 
         public abstract void Draw(SpriteBatch spriteBatch, Color color);
+
+        protected Vector2 CalculateAimPoint(Enemy target, Bullet bullet)
+        {
+            float distance = Vector2.Distance(Position, target.Position);
+            float travelTime = distance / bullet.Speed;
+            Vector2 targetVelocity = new Vector2((float)Math.Cos(target.Rotation), (float)Math.Sin(target.Rotation)) * target.Speed;
+
+            return target.Position + targetVelocity * travelTime;
+        }
     }
 }

@@ -66,6 +66,7 @@
     <Compile Include="Managers\BulletManager.cs" />
     <Compile Include="Managers\ButtonManager.cs" />
     <Compile Include="Managers\EnemyManager.cs" />
+    <Compile Include="Managers\InputManager.cs" />
     <Compile Include="Managers\MapManager.cs" />
     <Compile Include="Managers\ParticleManager.cs" />
     <Compile Include="Managers\ScreenManager.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Moldels\Button.cs" />
     <Compile Include="Moldels\Camera.cs" />
     <Compile Include="Moldels\Enemy.cs" />
+    <Compile Include="Moldels\InputEvents.cs" />
     <Compile Include="Moldels\IPositionable.cs" />
     <Compile Include="Moldels\Map.cs" />
     <Compile Include="Moldels\MapData.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="Towers\EnemySearchAlgorithms\ISearchAlgorithm.cs" />
     <Compile Include="Towers\EnemySearchAlgorithms\FirstEnemySearch.cs" />
     <Compile Include="Towers\EnemySearchAlgorithms\LastEnemySearch.cs" />
+    <Compile Include="Towers\IShootTower.cs" />
     <Compile Include="Towers\TestTower.cs" />
     <Compile Include="Towers\Tower.cs" />
     <Compile Include="Views\AvailableMapsView.cs" />

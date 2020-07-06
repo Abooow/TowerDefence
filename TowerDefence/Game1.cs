@@ -86,11 +86,12 @@ namespace TowerDefence
 
             float elapsed = (float)(now - time).TotalSeconds;
             time = now;
-            if (Keyboard.GetState().IsKeyDown(Keys.F11)) Exit();
 
             fpsCounter.Update(elapsed);
             Window.Title = fpsCounter.msg;
 
+            InputManager.Update();
+            if (InputManager.IsKeyPressed(Keys.F11)) Exit();
             ScreenManager.Update(elapsed * GameSpeed);
 
             base.Update(gameTime);

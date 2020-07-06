@@ -12,11 +12,12 @@ namespace TowerDefence.Towers
 {
     public class TestTower : Tower
     {
+        public float BarrelLength { get; }
+        public float ShootRate { get; set; }
+        public float ShootTimer { get; set; }
+
         private ParticleManager particleManager;
-        private float barrelLength;
-        private float shootRate;
-        private float timer;
-        private Bullet bullet;
+        private Bullet shootBullet;
 
         public TestTower(BulletManager bulletManager, ParticleManager particleManager)
             : base(bulletManager, AssetManager.GetSprite("TowerBase2"), AssetManager.GetSprite("Tower1"), 26f, 250f)
@@ -26,9 +27,9 @@ namespace TowerDefence.Towers
             BaseLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerBase) + extraDepth;
             TopLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerTop) + extraDepth;
 
-            barrelLength = 38f;
-            shootRate = 0.2f;
-            bullet = BulletFactory.GetBullet("Bullet1");
+            BarrelLength = 38f;
+            ShootRate = 0.2f;
+            shootBullet = BulletFactory.GetBullet("Bullet1");
 
             SearchAlgorithm = new FirstEnemySearch();
         }
@@ -37,22 +38,22 @@ namespace TowerDefence.Towers
         {
             if (SearchAlgorithm != null)
             {
-                timer -= deltaTime;
+                ShootTimer -= deltaTime;
                 if (SearchAlgorithm.FoundEnemy != null)
                 {
                     // Rotate.
-                    Vector2 delta = CalculateAimPoint(SearchAlgorithm.FoundEnemy) - Position;
+                    Vector2 delta = CalculateAimPoint(SearchAlgorithm.FoundEnemy, shootBullet) - Position;
                     Rotation = (float)Math.Atan2(delta.Y, delta.X);
 
                     // Shoot.
-                    if (timer <= 0)
+                    if (ShootTimer <= 0)
                     {
                         Vector2 direction = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
-                        Vector2 bulletPosition = Position + direction * barrelLength;
+                        Vector2 bulletPosition = Position + direction * BarrelLength;
                         BulletManager.SpawnBullet(BulletFactory.GetBullet("Bullet1"), bulletPosition, direction);
-                        Particle flash = new Particle(shootRate * 0.3f, AssetManager.GetSprite("Fire1"), bulletPosition, Vector2.One, Rotation, 1f);
+                        Particle flash = new Particle(ShootRate * 0.3f, AssetManager.GetSprite("Fire1"), bulletPosition, Vector2.One, Rotation, 1f);
                         particleManager.AddParticle(flash);
-                        timer = shootRate;
+                        ShootTimer = ShootRate;
                     }
                 }
             }
@@ -72,15 +73,6 @@ namespace TowerDefence.Towers
                 Vector2.One,
                 SpriteEffects.None,
                 TopLayerDepth);
-        }
-
-        private Vector2 CalculateAimPoint(Enemy target)
-        {
-            float distance = Vector2.Distance(Position, target.Position);
-            float travelTime = distance / bullet.Speed;
-            Vector2 targetVelocity = new Vector2((float)Math.Cos(target.Rotation), (float)Math.Sin(target.Rotation)) * target.Speed;
-
-            return target.Position + targetVelocity  * travelTime;
         }
     }
 }

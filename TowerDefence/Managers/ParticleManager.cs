@@ -29,7 +29,7 @@ namespace TowerDefence.Managers
 
         public void AddParticle(Particle particle)
         {
-            if (!particles.Contains(particle)) particles.Add(particle);
+            if (Enabled && !particles.Contains(particle)) particles.Add(particle);
         }
 
         public void Update(float deltaTime)

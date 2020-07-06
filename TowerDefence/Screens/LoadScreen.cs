@@ -24,7 +24,7 @@ namespace TowerDefence.Screens
         {
         }
 
-        private async void Load()
+        private void Load()
         {
             // Load Maps.
             MapManager.LoadAllMaps();

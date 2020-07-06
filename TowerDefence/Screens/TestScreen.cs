@@ -51,7 +51,7 @@ namespace TowerDefence.Screens
             controllers.Add(bulletManager);
             controllers.Add(particleManager);
             controllers.Add(towerSelector = new TowerSelectorController(camera, towerPlacer, bulletManager, particleManager));
-            controllers.Add(new TestTowerPlacerScript(towerPlacer, bulletManager, particleManager)); // TEST!
+            //controllers.Add(new TestTowerPlacerScript(towerPlacer, bulletManager, particleManager)); // TEST!
 
             // Views.
             views.Add(new SelectedTowerView(selectTowerController));
@@ -70,7 +70,7 @@ namespace TowerDefence.Screens
             spawnerController.Enabled = false;
         }
 
-        async void Collect()
+        private async void Collect()
         {
             Console.WriteLine($"Total memory before {GC.GetTotalMemory(false)}");
             await Task.Delay(5000);
@@ -79,18 +79,14 @@ namespace TowerDefence.Screens
             Console.WriteLine($"Total memory after  {GC.GetTotalMemory(true)}");
         }
 
-        KeyboardState s;
         public override void Update(float deltaTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && s.IsKeyUp(Keys.Enter))
+            if (InputManager.IsKeyJustPressed(Keys.Enter))
             {
                 spawnerController.Enabled = !spawnerController.Enabled;
                 if (!spawnerController.Enabled)
-                {
                     Task.Run(Collect);
-                }
             }
-            s = Keyboard.GetState();
 
             base.Update(deltaTime);
         }
