@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TowerDefence.Helpers;
+using TowerDefence.Interfaces;
 
 namespace TowerDefence.Moldels
 {
-    public class Bullet
+    public class Bullet : IDuplicatable<Bullet>
     {
         public Sprite Sprite { get; set; }
         public Vector2 Position { get; set; }
@@ -68,6 +69,11 @@ namespace TowerDefence.Moldels
                 1f,
                 SpriteEffects.None,
                 LayerDepth);
+        }
+
+        public Bullet Duplicate()
+        {
+            return new Bullet(Sprite, MaxDistance, Speed, Damage, LayerDepth);
         }
     }
 }

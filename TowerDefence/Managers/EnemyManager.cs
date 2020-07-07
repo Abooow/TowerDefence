@@ -40,7 +40,7 @@ namespace TowerDefence.Managers
             font = AssetManager.GetFont("BaseFont");
             layerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Ui);
 
-            DebugWorldDivider = true;
+            DebugWorldDivider = false;
             ControllerGroupId = new HashSet<int>();
             ViewGroupId = new HashSet<int>();
             Enabled = true;

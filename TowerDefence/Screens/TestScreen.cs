@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TowerDefence.Controllers;
+using TowerDefence.Factories;
 using TowerDefence.Helpers;
 using TowerDefence.Managers;
 using TowerDefence.Moldels;
@@ -38,20 +39,25 @@ namespace TowerDefence.Screens
             particleManager = new ParticleManager();
             towerPlacer = new TowerPlacer(towerManager);
             selectTowerController = new SelectTowerController(towerManager, towerPlacer, camera);
-            TowerSelectorController towerSelector;
+            spawnerController = new EnemySpawnerController(enemyManager);
+            TowerSelectorController towerSelector = new TowerSelectorController(camera, towerPlacer, bulletManager, enemyManager, particleManager);
+
+            // Create Tower prefabs.
+            TowerFactory.Add("Tower1", new TestTower(bulletManager, enemyManager, particleManager));
+            TowerFactory.Add("Tower2", new MachineGunPlaneTower(bulletManager, enemyManager, particleManager));
 
             enemyManager.OnEnemyReachedLastPoint += OnEnemyReachedGoal;
 
             // Controllers.
             controllers.Add(selectTowerController);
             controllers.Add(new MapMoverController(camera));
-            controllers.Add(spawnerController = new EnemySpawnerController(enemyManager));
+            controllers.Add(spawnerController);
             controllers.Add(enemyManager);
             controllers.Add(towerManager);
             controllers.Add(bulletManager);
             controllers.Add(particleManager);
-            controllers.Add(towerSelector = new TowerSelectorController(camera, towerPlacer, bulletManager, particleManager));
-            //controllers.Add(new TestTowerPlacerScript(towerPlacer, bulletManager, particleManager)); // TEST!
+            controllers.Add(towerSelector);
+            //controllers.Add(new TestTowerPlacerScript(towerPlacer, TowerFactory.GetTower("Tower2"))); // TEST!
 
             // Views.
             views.Add(new SelectedTowerView(selectTowerController));

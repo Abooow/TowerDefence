@@ -21,7 +21,7 @@ namespace TowerDefence.Towers.EnemySearchAlgorithms
             foreach (Enemy enemy in foundUnits)
             {
                 if (enemy.AiController.WayPointIndex > lastWayPoint &&
-                    Circle.Intercects(Tower.Position, Tower.RangeRadius, enemy.Position, enemy.HitboxRadius))
+                    Circle.Intercects(Tower.GetPosition(), Tower.RangeRadius, enemy.Position, enemy.HitboxRadius))
                 {
                     
                         lastWayPoint = enemy.AiController.WayPointIndex;

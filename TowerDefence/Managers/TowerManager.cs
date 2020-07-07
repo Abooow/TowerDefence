@@ -19,12 +19,10 @@ namespace TowerDefence.Managers
         public List<Tower> Towers { get; }
 
         private EnemyManager enemyManager;
-        //private SelectTowerController selectTowerController;
 
-        public TowerManager(EnemyManager enemyManager/*, SelectTowerController selectTowerController*/)
+        public TowerManager(EnemyManager enemyManager)
         {
             this.enemyManager = enemyManager;
-            //this.selectTowerController = selectTowerController;
 
             Towers = new List<Tower>();
 
@@ -88,11 +86,7 @@ namespace TowerDefence.Managers
         {
             foreach (Tower tower in Towers)
             {
-                tower.SearchAlgorithm.FoundEnemy = null;
-                tower.SearchAlgorithm.Tower = tower;
-                enemyManager.Query(tower.Position, tower.RangeRadius + EnemyFactory.LargestEnemyHitboxRadius, tower.SearchAlgorithm.FindEnemies);
                 tower.Update(deltaTime);
-                tower.SearchAlgorithm.Tower = null;
             }
         }
 
@@ -100,7 +94,7 @@ namespace TowerDefence.Managers
         {
             foreach (Tower tower in Towers)
             {
-                /*if (!(tower == selectTowerController.SelectedTower)) */tower.Draw(spriteBatch, Color.White);
+                tower.Draw(spriteBatch, Color.White);
             }
         }
     }

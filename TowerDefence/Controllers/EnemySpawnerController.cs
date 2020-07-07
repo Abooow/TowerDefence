@@ -15,7 +15,7 @@ namespace TowerDefence.Controllers
         public bool Enabled { get; set; }
 
         private EnemyManager enemyManager;
-        private float maxTimer = 0.0f;
+        private float maxTimer = 0.1f;
         private float timer;
         private Random random;
 
@@ -34,9 +34,14 @@ namespace TowerDefence.Controllers
             timer -= deltaTime;
             if (timer <= 0f)
             {
-                enemyManager.Spawn(EnemyFactory.GetEnemy($"Enemy3"));
+                enemyManager.Spawn(EnemyFactory.GetEnemy($"Enemy{random.Next(1, 5)}"));
                 timer = maxTimer;
-                tot++;
+                //tot++;
+            }
+
+            if (!Enabled)
+            {
+                Moldels.Enemy.ExtraDepth = 0;
             }
         }
     }

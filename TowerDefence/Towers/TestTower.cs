@@ -4,33 +4,38 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TowerDefence.Factories;
 using TowerDefence.Helpers;
+using TowerDefence.Interfaces;
 using TowerDefence.Managers;
 using TowerDefence.Moldels;
 using TowerDefence.Towers.EnemySearchAlgorithms;
 
 namespace TowerDefence.Towers
 {
-    public class TestTower : Tower
+    public class TestTower : Tower, IShootTower
     {
-        public float BarrelLength { get; }
         public float ShootRate { get; set; }
         public float ShootTimer { get; set; }
+        public BulletManager BulletManager { get; set; }
+        public EnemyManager EnemyManager { get; set; }
+        public ISearchAlgorithm SearchAlgorithm { get; set; }
 
+        public float barrelLength;
         private ParticleManager particleManager;
         private Bullet shootBullet;
 
-        public TestTower(BulletManager bulletManager, ParticleManager particleManager)
-            : base(bulletManager, AssetManager.GetSprite("TowerBase2"), AssetManager.GetSprite("Tower1"), 26f, 250f)
+        public TestTower(BulletManager bulletManager, EnemyManager enemyManager, ParticleManager particleManager)
+            : base(AssetManager.GetSprite("TowerBase2"), AssetManager.GetSprite("Tower1"), 26f, 250f)
         {
+            BulletManager =  bulletManager;
+            EnemyManager = enemyManager;
             this.particleManager = particleManager;
 
             BaseLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerBase) + extraDepth;
             TopLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.TowerTop) + extraDepth;
 
-            BarrelLength = 38f;
+            barrelLength = 38f;
             ShootRate = 0.2f;
-            shootBullet = BulletFactory.GetBullet("Bullet1");
-
+            shootBullet = BulletFactory.GetBullet("Bullet2");
             SearchAlgorithm = new FirstEnemySearch();
         }
 
@@ -39,6 +44,8 @@ namespace TowerDefence.Towers
             if (SearchAlgorithm != null)
             {
                 ShootTimer -= deltaTime;
+                FindEnemy();
+
                 if (SearchAlgorithm.FoundEnemy != null)
                 {
                     // Rotate.
@@ -49,14 +56,22 @@ namespace TowerDefence.Towers
                     if (ShootTimer <= 0)
                     {
                         Vector2 direction = new Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
-                        Vector2 bulletPosition = Position + direction * BarrelLength;
-                        BulletManager.SpawnBullet(BulletFactory.GetBullet("Bullet1"), bulletPosition, direction);
+                        Vector2 bulletPosition = Position + direction * barrelLength;
+                        BulletManager.SpawnBullet(shootBullet.Duplicate(), bulletPosition, direction);
                         Particle flash = new Particle(ShootRate * 0.3f, AssetManager.GetSprite("Fire1"), bulletPosition, Vector2.One, Rotation, 1f);
                         particleManager.AddParticle(flash);
                         ShootTimer = ShootRate;
                     }
                 }
             }
+        }
+
+        public void FindEnemy()
+        {
+            SearchAlgorithm.FoundEnemy = null;
+            SearchAlgorithm.Tower = this;
+            EnemyManager.Query(Position, RangeRadius + EnemyFactory.LargestEnemyHitboxRadius, SearchAlgorithm.FindEnemies);
+            SearchAlgorithm.Tower = null;
         }
 
         public override void Draw(SpriteBatch spriteBatch, Color color)
@@ -73,6 +88,18 @@ namespace TowerDefence.Towers
                 Vector2.One,
                 SpriteEffects.None,
                 TopLayerDepth);
+        }
+
+        public override void UIDraw(SpriteBatch spriteBatch, Color color)
+        {
+            Draw(spriteBatch, color);
+        }
+
+        public override Vector2 GetPosition() => Position;
+
+        public override Tower Duplicate()
+        {
+            return new TestTower(BulletManager, EnemyManager, particleManager);
         }
     }
 }

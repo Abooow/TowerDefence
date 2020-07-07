@@ -44,7 +44,13 @@ namespace TowerDefence.Screens
             AssetManager.AddFont("BaseFont", Game1.ContentManager.Load<SpriteFont>("BaseFont"));
 
             // Load Sprites.
+            AssetManager.AddSprite("TowerBase1", new Sprite(tileSheet, new Rectangle(1216, 448, 64, 64), new Vector2(32, 32)));
+            AssetManager.AddSprite("TowerBase2", new Sprite(tileSheet, new Rectangle(1280, 448, 64, 64), new Vector2(32, 32)));
+            AssetManager.AddSprite("TowerBase3", new Sprite(tileSheet, new Rectangle(1344, 448, 64, 64), new Vector2(32, 32)));
+            AssetManager.AddSprite("TowerBase4", new Sprite(tileSheet, new Rectangle(1408, 448, 64, 64), new Vector2(32, 32)));
             AssetManager.AddSprite("Tower1", new Sprite(tileSheet, new Rectangle(1216, 640, 64, 64), new Vector2(20, 33)));
+            AssetManager.AddSprite("Tower2", new Sprite(tileSheet, new Rectangle(1088, 704, 64, 64), new Vector2(37, 33)));
+            AssetManager.AddSprite("PlaneShadow1", new Sprite(tileSheet, new Rectangle(1088, 768, 64, 64), new Vector2(37, 33)));
             AssetManager.AddSprite("Enemy1", new Sprite(tileSheet, new Rectangle(960, 640, 64, 64), new Vector2(32, 32)));
             AssetManager.AddSprite("Enemy2", new Sprite(tileSheet, new Rectangle(1024, 640, 64, 64), new Vector2(32, 32)));
             AssetManager.AddSprite("Enemy3", new Sprite(tileSheet, new Rectangle(1088, 640, 64, 64), new Vector2(32, 32)));
@@ -52,10 +58,6 @@ namespace TowerDefence.Screens
             AssetManager.AddSprite("Bullet1", new Sprite(tileSheet, new Rectangle(1216, 704, 64, 64), new Vector2(32, 32)));
             AssetManager.AddSprite("Bullet2", new Sprite(tileSheet, new Rectangle(1344, 640, 64, 64), new Vector2(42, 30)));
             AssetManager.AddSprite("Fire1", new Sprite(tileSheet, new Rectangle(1216, 768, 64, 64), new Vector2(20, 29)));
-            AssetManager.AddSprite("TowerBase1", new Sprite(tileSheet, new Rectangle(1216, 448, 64, 64), new Vector2(32, 32)));
-            AssetManager.AddSprite("TowerBase2", new Sprite(tileSheet, new Rectangle(1280, 448, 64, 64), new Vector2(32, 32)));
-            AssetManager.AddSprite("TowerBase3", new Sprite(tileSheet, new Rectangle(1344, 448, 64, 64), new Vector2(32, 32)));
-            AssetManager.AddSprite("TowerBase4", new Sprite(tileSheet, new Rectangle(1408, 448, 64, 64), new Vector2(32, 32)));
             
             // Create Enemy prefabs.
             float enemyLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Enemies);
@@ -66,7 +68,8 @@ namespace TowerDefence.Screens
 
             // Create Bullet prefabs.
             float bulletLayerDepth = SortingOrder.GetLayerDepth(0, SortingLayer.Bullets);
-            BulletFactory.Add("Bullet1", new Bullet(AssetManager.GetSprite("Bullet2"), 400f, 1100f, 280f, bulletLayerDepth + 0.000f));
+            BulletFactory.Add("Bullet1", new Bullet(AssetManager.GetSprite("Bullet1"), 400f, 1100f, 100, bulletLayerDepth + 0.000f));
+            BulletFactory.Add("Bullet2", new Bullet(AssetManager.GetSprite("Bullet2"), 400f, 1100f, 280f, bulletLayerDepth + 0.000f));
         }
     }
 }

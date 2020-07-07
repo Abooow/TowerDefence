@@ -24,10 +24,9 @@ namespace TowerDefence.Factories
         public static Bullet GetBullet(string name)
         {
             Bullet bulletToCopy = DefaultBullet;
-
             if (Bullets.ContainsKey(name)) bulletToCopy = Bullets[name];
 
-            return bulletToCopy == null ? null : new Bullet(bulletToCopy.Sprite, bulletToCopy.MaxDistance, bulletToCopy.Speed, bulletToCopy.Damage, bulletToCopy.LayerDepth);
+            return bulletToCopy.Duplicate();
         }
     }
 }

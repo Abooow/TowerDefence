@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TowerDefence.Helpers;
+using TowerDefence.Interfaces;
 using TowerDefence.Managers;
 using TowerDefence.Moldels;
 using TowerDefence.Towers.EnemySearchAlgorithms;
 
 namespace TowerDefence.Towers
 {
-    public abstract class Tower : IPositionable
+    public abstract class Tower : IPositionable, IDuplicatable<Tower>
     {
         internal static float extraDepth;
 
-        public BulletManager BulletManager { get; set; }
         public Vector2 Position { get; set; }
         public float BaseRadius { get; set; }
         public float RangeRadius { get; private set; }
@@ -25,11 +25,8 @@ namespace TowerDefence.Towers
         public Texture2D RangeTexture { get; internal set; }
         public Texture2D BaseRangeTexture { get; internal set; }
 
-        private float oldRange;
-
-        public Tower(BulletManager bulletManager, Sprite baseTexture, Sprite topTexture, float baseRadius, float range)
+        public Tower(Sprite baseTexture, Sprite topTexture, float baseRadius, float range)
         {
-            BulletManager = bulletManager;
             BaseTexture = baseTexture;
             TopTexture = topTexture;
             BaseRadius = baseRadius;
@@ -51,14 +48,16 @@ namespace TowerDefence.Towers
             RangeTexture = rangeTextue;
             BaseRangeTexture = baseRangeTextue;
 
-            extraDepth += 0.00000001f;
+            extraDepth += 0.000001f;
         }
 
-        public virtual void Update(float deltaTime)
-        {
-        }
+        public abstract Vector2 GetPosition();
+
+        public abstract void Update(float deltaTime);
 
         public abstract void Draw(SpriteBatch spriteBatch, Color color);
+
+        public abstract void UIDraw(SpriteBatch spriteBatch, Color color);
 
         protected Vector2 CalculateAimPoint(Enemy target, Bullet bullet)
         {
@@ -68,5 +67,7 @@ namespace TowerDefence.Towers
 
             return target.Position + targetVelocity * travelTime;
         }
+
+        public abstract Tower Duplicate();
     }
 }

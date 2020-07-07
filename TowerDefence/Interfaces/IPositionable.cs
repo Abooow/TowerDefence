@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace TowerDefence.Moldels
+namespace TowerDefence.Interfaces
 {
     public interface IPositionable
     {

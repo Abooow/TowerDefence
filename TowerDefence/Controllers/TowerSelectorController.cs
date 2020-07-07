@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
+using TowerDefence.Factories;
 using TowerDefence.Helpers;
 using TowerDefence.Managers;
 using TowerDefence.Moldels;
@@ -21,7 +22,7 @@ namespace TowerDefence.Controllers
         private BulletManager bulletManager;
         private ParticleManager particleManager;
 
-        public TowerSelectorController(Camera camera, TowerPlacer towerPlacer, BulletManager bulletManager, ParticleManager particleManager)
+        public TowerSelectorController(Camera camera, TowerPlacer towerPlacer, BulletManager bulletManager, EnemyManager enemyManager, ParticleManager particleManager)
         {
             this.camera = camera;
             this.towerPlacer = towerPlacer;
@@ -52,17 +53,8 @@ namespace TowerDefence.Controllers
 
         public void OnTowerButtonClicked(object obj, EventArgs args)
         {
-            Tower tower = null;
             string towerName = ((Button)obj).AttachedObject as string;
-
-            switch (towerName)
-            {
-                case "Tower1":
-                    tower = new TestTower(bulletManager, particleManager);
-                    break;
-            }
-
-            towerPlacer.TargetTower = tower;
+            towerPlacer.TargetTower = TowerFactory.GetTower(towerName);
         }
     }
 }

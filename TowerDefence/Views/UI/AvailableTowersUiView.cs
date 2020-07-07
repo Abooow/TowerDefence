@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TowerDefence.Controllers;
+using TowerDefence.Factories;
 using TowerDefence.Managers;
 using TowerDefence.Moldels;
 using TowerDefence.Towers;
@@ -29,17 +30,7 @@ namespace TowerDefence.Views.UI
             ButtonsOffset = backgroundRect.Location.ToVector2();
 
             Buttons = new List<Button>();
-            Buttons.Add(new TowerButton(
-                ButtonsOffset + new Vector2(10f, 30f),
-                new Vector2(100f, 80f),
-                new TestTower(null, null),
-                new Rectangle(0, 0, 100, 60),
-                200)
-            { 
-                TextPosition = new Vector2(50f, 70f),
-                AttachedObject = "Tower1"
-            });
-            Buttons[0].OnClicked += towerSelector.OnTowerButtonClicked;
+            CreateButtons(towerSelector);
 
             buttonManager.AddButtons(Buttons);
 
@@ -62,6 +53,37 @@ namespace TowerDefence.Views.UI
                 0f);
 
             buttonManager.Draw(spriteBatch);
+        }
+
+        private void CreateButtons(TowerSelectorController towerSelector)
+        {
+            // Tower1
+            Buttons.Add(new TowerButton(
+                ButtonsOffset + new Vector2(10f, 30f),
+                new Vector2(100f, 80f),
+                TowerFactory.GetTower("Tower1"),
+                new Rectangle(0, 0, 100, 60),
+                200)
+            {
+                TextPosition = new Vector2(50f, 70f),
+                AttachedObject = "Tower1"
+            });
+            // Tower2
+            Buttons.Add(new TowerButton(
+                ButtonsOffset + new Vector2(120f, 30f),
+                new Vector2(100f, 80f),
+                TowerFactory.GetTower("Tower2"),
+                new Rectangle(0, 0, 100, 60),
+                200)
+            {
+                TextPosition = new Vector2(50f, 70f),
+                AttachedObject = "Tower2"
+            });
+
+            foreach (Button button in Buttons)
+            {
+                button.OnClicked += towerSelector.OnTowerButtonClicked;
+            }
         }
 
         private void OnButtonClicked(object obj, EventArgs args)
@@ -95,7 +117,7 @@ namespace TowerDefence.Views.UI
 
                 Vector2 towerPos = Position + ImageRect.Location.ToVector2() + ImageRect.Size.ToVector2() * 0.5f;
                 tower.Position = towerPos;
-                tower.Draw(spriteBatch, Color.White);
+                tower.UIDraw(spriteBatch, Color.White);
 
                 string costText = Cost.ToString();
                 spriteBatch.DrawString(

@@ -12,6 +12,8 @@ namespace TowerDefence.Moldels
 {
     public class Enemy : SpaceUnit
     {
+        public static float ExtraDepth;
+
         public Sprite Sprite { get; set; }
         public float HitboxRadius { get; set; }
         public float Scale { get; set; }
@@ -34,9 +36,10 @@ namespace TowerDefence.Moldels
             Health = health;
             Armor = armor;
             Damage = damage;
-            LayerDepth = layerDepth;
+            LayerDepth = layerDepth + ExtraDepth;
 
             AiController = new EnemyAiController(this);
+            ExtraDepth += 0.00001f;
         }
 
         public bool Update(float deltaTime)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TowerDefence.Factories;
 using TowerDefence.Helpers;
 using TowerDefence.Managers;
 using TowerDefence.Towers;
@@ -15,16 +16,14 @@ namespace TowerDefence.Controllers
         public HashSet<int> ControllerGroupId { get; }
         public bool Enabled { get; set; }
 
-        public TestTowerPlacerScript(TowerPlacer towerPlacer, BulletManager bulletManager, ParticleManager particleManager)
+        public TestTowerPlacerScript(TowerPlacer towerPlacer, Tower tower)
         {
-            Tower towerInfo = new TestTower(bulletManager, particleManager);
-
-            for (int y = 0; y < MapManager.LoadedMap.PermittedTowerPlacementTexture.Height / (towerInfo.BaseRadius * 2); y++)
+            for (int y = 0; y < MapManager.LoadedMap.PermittedTowerPlacementTexture.Height / (tower.BaseRadius * 2); y++)
             {
-                for (int x = 0; x < MapManager.LoadedMap.PermittedTowerPlacementTexture.Width / (towerInfo.BaseRadius * 2); x++)
+                for (int x = 0; x < MapManager.LoadedMap.PermittedTowerPlacementTexture.Width / (tower.BaseRadius * 2); x++)
                 {
-                    towerPlacer.TargetTower = new TestTower(bulletManager, particleManager);
-                    towerPlacer.MoveTower(new Vector2(x * towerInfo.BaseRadius * 2, y * towerInfo.BaseRadius * 2));
+                    towerPlacer.TargetTower = tower.Duplicate();
+                    towerPlacer.MoveTower(new Vector2(x * tower.BaseRadius * 2, y * tower.BaseRadius * 2));
                     towerPlacer.PlaceTower();
                 }
             }

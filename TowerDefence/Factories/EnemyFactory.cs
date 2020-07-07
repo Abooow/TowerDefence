@@ -33,5 +33,10 @@ namespace TowerDefence.Factories
 
             return enemyToCopy == null ? null : new Enemy(null, enemyToCopy.Sprite, enemyToCopy.HitboxRadius, enemyToCopy.Scale, enemyToCopy.Speed, enemyToCopy.Health, enemyToCopy.Armor, enemyToCopy.Damage, enemyToCopy.LayerDepth);
         }
+
+        public static Enemy Duplicate(Enemy enemy)
+        {
+            return enemy == null ? null : new Enemy(null, enemy.Sprite, enemy.HitboxRadius, enemy.Scale, enemy.Speed, enemy.Health, enemy.Armor, enemy.Damage, enemy.LayerDepth);
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace TowerDefence.Views
                 // Draw range area.
                 spriteBatch.Draw(
                     selectTowerController.SelectedTower.RangeTexture,
-                    selectTowerController.SelectedTower.Position - new Vector2(selectTowerController.SelectedTower.RangeRadius),
+                    selectTowerController.SelectedTower.GetPosition() - new Vector2(selectTowerController.SelectedTower.RangeRadius),
                     null,
                     Color.White * 0.4f,
                     0f,

@@ -53,6 +53,7 @@
     <Compile Include="Controllers\TowerSelectorController.cs" />
     <Compile Include="Factories\BulletFactory.cs" />
     <Compile Include="Factories\EnemyFactory.cs" />
+    <Compile Include="Factories\TowerFactory.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Groups\ControllerId.cs" />
     <Compile Include="Groups\ViewId.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Helpers\MouseOverlapsUI.cs" />
     <Compile Include="Helpers\TowerPlacer.cs" />
     <Compile Include="Helpers\SpacePartitioner.cs" />
+    <Compile Include="Interfaces\IDuplicatable.cs" />
     <Compile Include="Managers\BulletManager.cs" />
     <Compile Include="Managers\ButtonManager.cs" />
     <Compile Include="Managers\EnemyManager.cs" />
@@ -77,7 +79,7 @@
     <Compile Include="Moldels\Camera.cs" />
     <Compile Include="Moldels\Enemy.cs" />
     <Compile Include="Moldels\InputEvents.cs" />
-    <Compile Include="Moldels\IPositionable.cs" />
+    <Compile Include="Interfaces\IPositionable.cs" />
     <Compile Include="Moldels\Map.cs" />
     <Compile Include="Moldels\MapData.cs" />
     <Compile Include="Moldels\Particle.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Towers\EnemySearchAlgorithms\FirstEnemySearch.cs" />
     <Compile Include="Towers\EnemySearchAlgorithms\LastEnemySearch.cs" />
     <Compile Include="Towers\IShootTower.cs" />
+    <Compile Include="Towers\MachineGunPlaneTower.cs" />
     <Compile Include="Towers\TestTower.cs" />
     <Compile Include="Towers\Tower.cs" />
     <Compile Include="Views\AvailableMapsView.cs" />
